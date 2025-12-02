@@ -6,8 +6,7 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "outDir": "dist",
-    "typeRoots": ["./src/types", "./node_modules/@types"]
+    "outDir": "dist"
   },
   "ts-node": {
     "esm": true

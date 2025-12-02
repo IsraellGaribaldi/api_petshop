@@ -5,7 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 //tabela de pets 
@@ -35,8 +34,9 @@ model Cliente {
   endereço    String
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-  pets         Pet[] // relação 1 cliente pode ter mais de um pet
+  solicitacoes Solicitacao[]
   agendamentos Agendamento[]
+  pets         Pet[] // relação 1 cliente pode ter mais de um pet
 
   @@map("clientes")
 }
@@ -74,6 +74,8 @@ model Solicitacao {
   status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  clienteId Int
+  cliente   Cliente  @relation(fields: [clienteId], references: [id])
 
   @@map("solicitacao")
 }
