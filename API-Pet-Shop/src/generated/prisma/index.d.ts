@@ -3,7 +3,7 @@
  * Client
 **/
 
-import * as runtime from './runtime/library.js';
+import * as runtime from './runtime/client.js';
 import $Types = runtime.Types // general types
 import $Public = runtime.Types.Public
 import $Utils = runtime.Types.Utils
@@ -157,7 +157,6 @@ export class PrismaClient<
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
 
-
   $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
     extArgs: ExtArgs
   }>>
@@ -261,14 +260,6 @@ export namespace Prisma {
   export type DecimalJsLike = runtime.DecimalJsLike
 
   /**
-   * Metrics
-   */
-  export type Metrics = runtime.Metrics
-  export type Metric<T> = runtime.Metric<T>
-  export type MetricHistogram = runtime.MetricHistogram
-  export type MetricHistogramBucket = runtime.MetricHistogramBucket
-
-  /**
   * Extensions
   */
   export import Extension = $Extensions.UserArgs
@@ -279,11 +270,12 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.19.0
-   * Query Engine version: 2ba551f319ab1df4bc874a89965d8b3641056773
+   * Prisma Client JS version: 7.0.1
+   * Query Engine version: f09f2815f091dbba658cdcd2264306d88bb5bda6
    */
   export type PrismaVersion = {
     client: string
+    engine: string
   }
 
   export const prismaVersion: PrismaVersion
@@ -673,9 +665,6 @@ export namespace Prisma {
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
 
 
-  export type Datasources = {
-    db?: Datasource
-  }
 
   interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<{extArgs: $Extensions.InternalArgs }, $Utils.Record<string, any>> {
     returns: Prisma.TypeMap<this['params']['extArgs'], ClientOptions extends { omit: infer OmitOptions } ? OmitOptions : {}>
@@ -1163,14 +1152,6 @@ export namespace Prisma {
   export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
   export interface PrismaClientOptions {
     /**
-     * Overwrites the datasource url from your schema.prisma file
-     */
-    datasources?: Datasources
-    /**
-     * Overwrites the datasource url from your schema.prisma file
-     */
-    datasourceUrl?: string
-    /**
      * @default "colorless"
      */
     errorFormat?: ErrorFormat
@@ -1212,7 +1193,11 @@ export namespace Prisma {
     /**
      * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
      */
-    adapter?: runtime.SqlDriverAdapterFactory | null
+    adapter?: runtime.SqlDriverAdapterFactory
+    /**
+     * Prisma Accelerate URL allowing the client to connect through Accelerate instead of a direct database.
+     */
+    accelerateUrl?: string
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -1356,13 +1341,15 @@ export namespace Prisma {
    */
 
   export type ClienteCountOutputType = {
-    pets: number
+    solicitacoes: number
     agendamentos: number
+    pets: number
   }
 
   export type ClienteCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    pets?: boolean | ClienteCountOutputTypeCountPetsArgs
+    solicitacoes?: boolean | ClienteCountOutputTypeCountSolicitacoesArgs
     agendamentos?: boolean | ClienteCountOutputTypeCountAgendamentosArgs
+    pets?: boolean | ClienteCountOutputTypeCountPetsArgs
   }
 
   // Custom InputTypes
@@ -1379,8 +1366,8 @@ export namespace Prisma {
   /**
    * ClienteCountOutputType without action
    */
-  export type ClienteCountOutputTypeCountPetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PetWhereInput
+  export type ClienteCountOutputTypeCountSolicitacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SolicitacaoWhereInput
   }
 
   /**
@@ -1388,6 +1375,13 @@ export namespace Prisma {
    */
   export type ClienteCountOutputTypeCountAgendamentosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AgendamentoWhereInput
+  }
+
+  /**
+   * ClienteCountOutputType without action
+   */
+  export type ClienteCountOutputTypeCountPetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PetWhereInput
   }
 
 
@@ -2850,8 +2844,9 @@ export namespace Prisma {
     endereço?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    pets?: boolean | Cliente$petsArgs<ExtArgs>
+    solicitacoes?: boolean | Cliente$solicitacoesArgs<ExtArgs>
     agendamentos?: boolean | Cliente$agendamentosArgs<ExtArgs>
+    pets?: boolean | Cliente$petsArgs<ExtArgs>
     _count?: boolean | ClienteCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["cliente"]>
 
@@ -2887,8 +2882,9 @@ export namespace Prisma {
 
   export type ClienteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "telefone" | "email" | "endereço" | "createdAt" | "updatedAt", ExtArgs["result"]["cliente"]>
   export type ClienteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    pets?: boolean | Cliente$petsArgs<ExtArgs>
+    solicitacoes?: boolean | Cliente$solicitacoesArgs<ExtArgs>
     agendamentos?: boolean | Cliente$agendamentosArgs<ExtArgs>
+    pets?: boolean | Cliente$petsArgs<ExtArgs>
     _count?: boolean | ClienteCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClienteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2897,8 +2893,9 @@ export namespace Prisma {
   export type $ClientePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Cliente"
     objects: {
-      pets: Prisma.$PetPayload<ExtArgs>[]
+      solicitacoes: Prisma.$SolicitacaoPayload<ExtArgs>[]
       agendamentos: Prisma.$AgendamentoPayload<ExtArgs>[]
+      pets: Prisma.$PetPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -3302,8 +3299,9 @@ export namespace Prisma {
    */
   export interface Prisma__ClienteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    pets<T extends Cliente$petsArgs<ExtArgs> = {}>(args?: Subset<T, Cliente$petsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    solicitacoes<T extends Cliente$solicitacoesArgs<ExtArgs> = {}>(args?: Subset<T, Cliente$solicitacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SolicitacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     agendamentos<T extends Cliente$agendamentosArgs<ExtArgs> = {}>(args?: Subset<T, Cliente$agendamentosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgendamentoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pets<T extends Cliente$petsArgs<ExtArgs> = {}>(args?: Subset<T, Cliente$petsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3728,27 +3726,27 @@ export namespace Prisma {
   }
 
   /**
-   * Cliente.pets
+   * Cliente.solicitacoes
    */
-  export type Cliente$petsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Cliente$solicitacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pet
+     * Select specific fields to fetch from the Solicitacao
      */
-    select?: PetSelect<ExtArgs> | null
+    select?: SolicitacaoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pet
+     * Omit specific fields from the Solicitacao
      */
-    omit?: PetOmit<ExtArgs> | null
+    omit?: SolicitacaoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PetInclude<ExtArgs> | null
-    where?: PetWhereInput
-    orderBy?: PetOrderByWithRelationInput | PetOrderByWithRelationInput[]
-    cursor?: PetWhereUniqueInput
+    include?: SolicitacaoInclude<ExtArgs> | null
+    where?: SolicitacaoWhereInput
+    orderBy?: SolicitacaoOrderByWithRelationInput | SolicitacaoOrderByWithRelationInput[]
+    cursor?: SolicitacaoWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: PetScalarFieldEnum | PetScalarFieldEnum[]
+    distinct?: SolicitacaoScalarFieldEnum | SolicitacaoScalarFieldEnum[]
   }
 
   /**
@@ -3773,6 +3771,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AgendamentoScalarFieldEnum | AgendamentoScalarFieldEnum[]
+  }
+
+  /**
+   * Cliente.pets
+   */
+  export type Cliente$petsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pet
+     */
+    select?: PetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pet
+     */
+    omit?: PetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PetInclude<ExtArgs> | null
+    where?: PetWhereInput
+    orderBy?: PetOrderByWithRelationInput | PetOrderByWithRelationInput[]
+    cursor?: PetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PetScalarFieldEnum | PetScalarFieldEnum[]
   }
 
   /**
@@ -6059,10 +6081,12 @@ export namespace Prisma {
 
   export type SolicitacaoAvgAggregateOutputType = {
     id: number | null
+    clienteId: number | null
   }
 
   export type SolicitacaoSumAggregateOutputType = {
     id: number | null
+    clienteId: number | null
   }
 
   export type SolicitacaoMinAggregateOutputType = {
@@ -6071,6 +6095,7 @@ export namespace Prisma {
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    clienteId: number | null
   }
 
   export type SolicitacaoMaxAggregateOutputType = {
@@ -6079,6 +6104,7 @@ export namespace Prisma {
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    clienteId: number | null
   }
 
   export type SolicitacaoCountAggregateOutputType = {
@@ -6087,16 +6113,19 @@ export namespace Prisma {
     status: number
     createdAt: number
     updatedAt: number
+    clienteId: number
     _all: number
   }
 
 
   export type SolicitacaoAvgAggregateInputType = {
     id?: true
+    clienteId?: true
   }
 
   export type SolicitacaoSumAggregateInputType = {
     id?: true
+    clienteId?: true
   }
 
   export type SolicitacaoMinAggregateInputType = {
@@ -6105,6 +6134,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    clienteId?: true
   }
 
   export type SolicitacaoMaxAggregateInputType = {
@@ -6113,6 +6143,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    clienteId?: true
   }
 
   export type SolicitacaoCountAggregateInputType = {
@@ -6121,6 +6152,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    clienteId?: true
     _all?: true
   }
 
@@ -6216,6 +6248,7 @@ export namespace Prisma {
     status: string
     createdAt: Date
     updatedAt: Date
+    clienteId: number
     _count: SolicitacaoCountAggregateOutputType | null
     _avg: SolicitacaoAvgAggregateOutputType | null
     _sum: SolicitacaoSumAggregateOutputType | null
@@ -6243,6 +6276,8 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    clienteId?: boolean
+    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["solicitacao"]>
 
   export type SolicitacaoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6251,6 +6286,8 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    clienteId?: boolean
+    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["solicitacao"]>
 
   export type SolicitacaoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6259,6 +6296,8 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    clienteId?: boolean
+    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["solicitacao"]>
 
   export type SolicitacaoSelectScalar = {
@@ -6267,19 +6306,32 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    clienteId?: boolean
   }
 
-  export type SolicitacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "descricao" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["solicitacao"]>
+  export type SolicitacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "descricao" | "status" | "createdAt" | "updatedAt" | "clienteId", ExtArgs["result"]["solicitacao"]>
+  export type SolicitacaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+  }
+  export type SolicitacaoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+  }
+  export type SolicitacaoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+  }
 
   export type $SolicitacaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Solicitacao"
-    objects: {}
+    objects: {
+      cliente: Prisma.$ClientePayload<ExtArgs>
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       descricao: string
       status: string
       createdAt: Date
       updatedAt: Date
+      clienteId: number
     }, ExtArgs["result"]["solicitacao"]>
     composites: {}
   }
@@ -6674,6 +6726,7 @@ export namespace Prisma {
    */
   export interface Prisma__SolicitacaoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    cliente<T extends ClienteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClienteDefaultArgs<ExtArgs>>): Prisma__ClienteClient<$Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6708,6 +6761,7 @@ export namespace Prisma {
     readonly status: FieldRef<"Solicitacao", 'String'>
     readonly createdAt: FieldRef<"Solicitacao", 'DateTime'>
     readonly updatedAt: FieldRef<"Solicitacao", 'DateTime'>
+    readonly clienteId: FieldRef<"Solicitacao", 'Int'>
   }
     
 
@@ -6724,6 +6778,10 @@ export namespace Prisma {
      * Omit specific fields from the Solicitacao
      */
     omit?: SolicitacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitacaoInclude<ExtArgs> | null
     /**
      * Filter, which Solicitacao to fetch.
      */
@@ -6743,6 +6801,10 @@ export namespace Prisma {
      */
     omit?: SolicitacaoOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitacaoInclude<ExtArgs> | null
+    /**
      * Filter, which Solicitacao to fetch.
      */
     where: SolicitacaoWhereUniqueInput
@@ -6760,6 +6822,10 @@ export namespace Prisma {
      * Omit specific fields from the Solicitacao
      */
     omit?: SolicitacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitacaoInclude<ExtArgs> | null
     /**
      * Filter, which Solicitacao to fetch.
      */
@@ -6809,6 +6875,10 @@ export namespace Prisma {
      */
     omit?: SolicitacaoOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitacaoInclude<ExtArgs> | null
+    /**
      * Filter, which Solicitacao to fetch.
      */
     where?: SolicitacaoWhereInput
@@ -6857,6 +6927,10 @@ export namespace Prisma {
      */
     omit?: SolicitacaoOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitacaoInclude<ExtArgs> | null
+    /**
      * Filter, which Solicitacaos to fetch.
      */
     where?: SolicitacaoWhereInput
@@ -6900,6 +6974,10 @@ export namespace Prisma {
      */
     omit?: SolicitacaoOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitacaoInclude<ExtArgs> | null
+    /**
      * The data needed to create a Solicitacao.
      */
     data: XOR<SolicitacaoCreateInput, SolicitacaoUncheckedCreateInput>
@@ -6933,6 +7011,10 @@ export namespace Prisma {
      */
     data: SolicitacaoCreateManyInput | SolicitacaoCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitacaoIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -6947,6 +7029,10 @@ export namespace Prisma {
      * Omit specific fields from the Solicitacao
      */
     omit?: SolicitacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitacaoInclude<ExtArgs> | null
     /**
      * The data needed to update a Solicitacao.
      */
@@ -6999,6 +7085,10 @@ export namespace Prisma {
      * Limit how many Solicitacaos to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitacaoIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7013,6 +7103,10 @@ export namespace Prisma {
      * Omit specific fields from the Solicitacao
      */
     omit?: SolicitacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitacaoInclude<ExtArgs> | null
     /**
      * The filter to search for the Solicitacao to update in case it exists.
      */
@@ -7039,6 +7133,10 @@ export namespace Prisma {
      * Omit specific fields from the Solicitacao
      */
     omit?: SolicitacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitacaoInclude<ExtArgs> | null
     /**
      * Filter which Solicitacao to delete.
      */
@@ -7071,6 +7169,10 @@ export namespace Prisma {
      * Omit specific fields from the Solicitacao
      */
     omit?: SolicitacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitacaoInclude<ExtArgs> | null
   }
 
 
@@ -8254,7 +8356,8 @@ export namespace Prisma {
     descricao: 'descricao',
     status: 'status',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    clienteId: 'clienteId'
   };
 
   export type SolicitacaoScalarFieldEnum = (typeof SolicitacaoScalarFieldEnum)[keyof typeof SolicitacaoScalarFieldEnum]
@@ -8453,8 +8556,9 @@ export namespace Prisma {
     endereço?: StringFilter<"Cliente"> | string
     createdAt?: DateTimeFilter<"Cliente"> | Date | string
     updatedAt?: DateTimeFilter<"Cliente"> | Date | string
-    pets?: PetListRelationFilter
+    solicitacoes?: SolicitacaoListRelationFilter
     agendamentos?: AgendamentoListRelationFilter
+    pets?: PetListRelationFilter
   }
 
   export type ClienteOrderByWithRelationInput = {
@@ -8465,8 +8569,9 @@ export namespace Prisma {
     endereço?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    pets?: PetOrderByRelationAggregateInput
+    solicitacoes?: SolicitacaoOrderByRelationAggregateInput
     agendamentos?: AgendamentoOrderByRelationAggregateInput
+    pets?: PetOrderByRelationAggregateInput
   }
 
   export type ClienteWhereUniqueInput = Prisma.AtLeast<{
@@ -8480,8 +8585,9 @@ export namespace Prisma {
     endereço?: StringFilter<"Cliente"> | string
     createdAt?: DateTimeFilter<"Cliente"> | Date | string
     updatedAt?: DateTimeFilter<"Cliente"> | Date | string
-    pets?: PetListRelationFilter
+    solicitacoes?: SolicitacaoListRelationFilter
     agendamentos?: AgendamentoListRelationFilter
+    pets?: PetListRelationFilter
   }, "id">
 
   export type ClienteOrderByWithAggregationInput = {
@@ -8653,6 +8759,8 @@ export namespace Prisma {
     status?: StringFilter<"Solicitacao"> | string
     createdAt?: DateTimeFilter<"Solicitacao"> | Date | string
     updatedAt?: DateTimeFilter<"Solicitacao"> | Date | string
+    clienteId?: IntFilter<"Solicitacao"> | number
+    cliente?: XOR<ClienteScalarRelationFilter, ClienteWhereInput>
   }
 
   export type SolicitacaoOrderByWithRelationInput = {
@@ -8661,6 +8769,8 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    clienteId?: SortOrder
+    cliente?: ClienteOrderByWithRelationInput
   }
 
   export type SolicitacaoWhereUniqueInput = Prisma.AtLeast<{
@@ -8672,6 +8782,8 @@ export namespace Prisma {
     status?: StringFilter<"Solicitacao"> | string
     createdAt?: DateTimeFilter<"Solicitacao"> | Date | string
     updatedAt?: DateTimeFilter<"Solicitacao"> | Date | string
+    clienteId?: IntFilter<"Solicitacao"> | number
+    cliente?: XOR<ClienteScalarRelationFilter, ClienteWhereInput>
   }, "id">
 
   export type SolicitacaoOrderByWithAggregationInput = {
@@ -8680,6 +8792,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    clienteId?: SortOrder
     _count?: SolicitacaoCountOrderByAggregateInput
     _avg?: SolicitacaoAvgOrderByAggregateInput
     _max?: SolicitacaoMaxOrderByAggregateInput
@@ -8696,6 +8809,7 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"Solicitacao"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Solicitacao"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Solicitacao"> | Date | string
+    clienteId?: IntWithAggregatesFilter<"Solicitacao"> | number
   }
 
   export type AgendamentoWhereInput = {
@@ -8853,8 +8967,9 @@ export namespace Prisma {
     endereço: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    pets?: PetCreateNestedManyWithoutClienteInput
+    solicitacoes?: SolicitacaoCreateNestedManyWithoutClienteInput
     agendamentos?: AgendamentoCreateNestedManyWithoutClienteInput
+    pets?: PetCreateNestedManyWithoutClienteInput
   }
 
   export type ClienteUncheckedCreateInput = {
@@ -8865,8 +8980,9 @@ export namespace Prisma {
     endereço: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    pets?: PetUncheckedCreateNestedManyWithoutClienteInput
+    solicitacoes?: SolicitacaoUncheckedCreateNestedManyWithoutClienteInput
     agendamentos?: AgendamentoUncheckedCreateNestedManyWithoutClienteInput
+    pets?: PetUncheckedCreateNestedManyWithoutClienteInput
   }
 
   export type ClienteUpdateInput = {
@@ -8876,8 +8992,9 @@ export namespace Prisma {
     endereço?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pets?: PetUpdateManyWithoutClienteNestedInput
+    solicitacoes?: SolicitacaoUpdateManyWithoutClienteNestedInput
     agendamentos?: AgendamentoUpdateManyWithoutClienteNestedInput
+    pets?: PetUpdateManyWithoutClienteNestedInput
   }
 
   export type ClienteUncheckedUpdateInput = {
@@ -8888,8 +9005,9 @@ export namespace Prisma {
     endereço?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pets?: PetUncheckedUpdateManyWithoutClienteNestedInput
+    solicitacoes?: SolicitacaoUncheckedUpdateManyWithoutClienteNestedInput
     agendamentos?: AgendamentoUncheckedUpdateManyWithoutClienteNestedInput
+    pets?: PetUncheckedUpdateManyWithoutClienteNestedInput
   }
 
   export type ClienteCreateManyInput = {
@@ -9055,6 +9173,7 @@ export namespace Prisma {
     status: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    cliente: ClienteCreateNestedOneWithoutSolicitacoesInput
   }
 
   export type SolicitacaoUncheckedCreateInput = {
@@ -9063,6 +9182,7 @@ export namespace Prisma {
     status: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    clienteId: number
   }
 
   export type SolicitacaoUpdateInput = {
@@ -9070,6 +9190,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cliente?: ClienteUpdateOneRequiredWithoutSolicitacoesNestedInput
   }
 
   export type SolicitacaoUncheckedUpdateInput = {
@@ -9078,6 +9199,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clienteId?: IntFieldUpdateOperationsInput | number
   }
 
   export type SolicitacaoCreateManyInput = {
@@ -9086,6 +9208,7 @@ export namespace Prisma {
     status: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    clienteId: number
   }
 
   export type SolicitacaoUpdateManyMutationInput = {
@@ -9101,6 +9224,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clienteId?: IntFieldUpdateOperationsInput | number
   }
 
   export type AgendamentoCreateInput = {
@@ -9350,10 +9474,20 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type SolicitacaoListRelationFilter = {
+    every?: SolicitacaoWhereInput
+    some?: SolicitacaoWhereInput
+    none?: SolicitacaoWhereInput
+  }
+
   export type PetListRelationFilter = {
     every?: PetWhereInput
     some?: PetWhereInput
     none?: PetWhereInput
+  }
+
+  export type SolicitacaoOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type PetOrderByRelationAggregateInput = {
@@ -9491,10 +9625,12 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    clienteId?: SortOrder
   }
 
   export type SolicitacaoAvgOrderByAggregateInput = {
     id?: SortOrder
+    clienteId?: SortOrder
   }
 
   export type SolicitacaoMaxOrderByAggregateInput = {
@@ -9503,6 +9639,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    clienteId?: SortOrder
   }
 
   export type SolicitacaoMinOrderByAggregateInput = {
@@ -9511,10 +9648,12 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    clienteId?: SortOrder
   }
 
   export type SolicitacaoSumOrderByAggregateInput = {
     id?: SortOrder
+    clienteId?: SortOrder
   }
 
   export type AgendamentoCountOrderByAggregateInput = {
@@ -9671,6 +9810,20 @@ export namespace Prisma {
     deleteMany?: AgendamentoScalarWhereInput | AgendamentoScalarWhereInput[]
   }
 
+  export type SolicitacaoCreateNestedManyWithoutClienteInput = {
+    create?: XOR<SolicitacaoCreateWithoutClienteInput, SolicitacaoUncheckedCreateWithoutClienteInput> | SolicitacaoCreateWithoutClienteInput[] | SolicitacaoUncheckedCreateWithoutClienteInput[]
+    connectOrCreate?: SolicitacaoCreateOrConnectWithoutClienteInput | SolicitacaoCreateOrConnectWithoutClienteInput[]
+    createMany?: SolicitacaoCreateManyClienteInputEnvelope
+    connect?: SolicitacaoWhereUniqueInput | SolicitacaoWhereUniqueInput[]
+  }
+
+  export type AgendamentoCreateNestedManyWithoutClienteInput = {
+    create?: XOR<AgendamentoCreateWithoutClienteInput, AgendamentoUncheckedCreateWithoutClienteInput> | AgendamentoCreateWithoutClienteInput[] | AgendamentoUncheckedCreateWithoutClienteInput[]
+    connectOrCreate?: AgendamentoCreateOrConnectWithoutClienteInput | AgendamentoCreateOrConnectWithoutClienteInput[]
+    createMany?: AgendamentoCreateManyClienteInputEnvelope
+    connect?: AgendamentoWhereUniqueInput | AgendamentoWhereUniqueInput[]
+  }
+
   export type PetCreateNestedManyWithoutClienteInput = {
     create?: XOR<PetCreateWithoutClienteInput, PetUncheckedCreateWithoutClienteInput> | PetCreateWithoutClienteInput[] | PetUncheckedCreateWithoutClienteInput[]
     connectOrCreate?: PetCreateOrConnectWithoutClienteInput | PetCreateOrConnectWithoutClienteInput[]
@@ -9678,7 +9831,14 @@ export namespace Prisma {
     connect?: PetWhereUniqueInput | PetWhereUniqueInput[]
   }
 
-  export type AgendamentoCreateNestedManyWithoutClienteInput = {
+  export type SolicitacaoUncheckedCreateNestedManyWithoutClienteInput = {
+    create?: XOR<SolicitacaoCreateWithoutClienteInput, SolicitacaoUncheckedCreateWithoutClienteInput> | SolicitacaoCreateWithoutClienteInput[] | SolicitacaoUncheckedCreateWithoutClienteInput[]
+    connectOrCreate?: SolicitacaoCreateOrConnectWithoutClienteInput | SolicitacaoCreateOrConnectWithoutClienteInput[]
+    createMany?: SolicitacaoCreateManyClienteInputEnvelope
+    connect?: SolicitacaoWhereUniqueInput | SolicitacaoWhereUniqueInput[]
+  }
+
+  export type AgendamentoUncheckedCreateNestedManyWithoutClienteInput = {
     create?: XOR<AgendamentoCreateWithoutClienteInput, AgendamentoUncheckedCreateWithoutClienteInput> | AgendamentoCreateWithoutClienteInput[] | AgendamentoUncheckedCreateWithoutClienteInput[]
     connectOrCreate?: AgendamentoCreateOrConnectWithoutClienteInput | AgendamentoCreateOrConnectWithoutClienteInput[]
     createMany?: AgendamentoCreateManyClienteInputEnvelope
@@ -9692,11 +9852,32 @@ export namespace Prisma {
     connect?: PetWhereUniqueInput | PetWhereUniqueInput[]
   }
 
-  export type AgendamentoUncheckedCreateNestedManyWithoutClienteInput = {
+  export type SolicitacaoUpdateManyWithoutClienteNestedInput = {
+    create?: XOR<SolicitacaoCreateWithoutClienteInput, SolicitacaoUncheckedCreateWithoutClienteInput> | SolicitacaoCreateWithoutClienteInput[] | SolicitacaoUncheckedCreateWithoutClienteInput[]
+    connectOrCreate?: SolicitacaoCreateOrConnectWithoutClienteInput | SolicitacaoCreateOrConnectWithoutClienteInput[]
+    upsert?: SolicitacaoUpsertWithWhereUniqueWithoutClienteInput | SolicitacaoUpsertWithWhereUniqueWithoutClienteInput[]
+    createMany?: SolicitacaoCreateManyClienteInputEnvelope
+    set?: SolicitacaoWhereUniqueInput | SolicitacaoWhereUniqueInput[]
+    disconnect?: SolicitacaoWhereUniqueInput | SolicitacaoWhereUniqueInput[]
+    delete?: SolicitacaoWhereUniqueInput | SolicitacaoWhereUniqueInput[]
+    connect?: SolicitacaoWhereUniqueInput | SolicitacaoWhereUniqueInput[]
+    update?: SolicitacaoUpdateWithWhereUniqueWithoutClienteInput | SolicitacaoUpdateWithWhereUniqueWithoutClienteInput[]
+    updateMany?: SolicitacaoUpdateManyWithWhereWithoutClienteInput | SolicitacaoUpdateManyWithWhereWithoutClienteInput[]
+    deleteMany?: SolicitacaoScalarWhereInput | SolicitacaoScalarWhereInput[]
+  }
+
+  export type AgendamentoUpdateManyWithoutClienteNestedInput = {
     create?: XOR<AgendamentoCreateWithoutClienteInput, AgendamentoUncheckedCreateWithoutClienteInput> | AgendamentoCreateWithoutClienteInput[] | AgendamentoUncheckedCreateWithoutClienteInput[]
     connectOrCreate?: AgendamentoCreateOrConnectWithoutClienteInput | AgendamentoCreateOrConnectWithoutClienteInput[]
+    upsert?: AgendamentoUpsertWithWhereUniqueWithoutClienteInput | AgendamentoUpsertWithWhereUniqueWithoutClienteInput[]
     createMany?: AgendamentoCreateManyClienteInputEnvelope
+    set?: AgendamentoWhereUniqueInput | AgendamentoWhereUniqueInput[]
+    disconnect?: AgendamentoWhereUniqueInput | AgendamentoWhereUniqueInput[]
+    delete?: AgendamentoWhereUniqueInput | AgendamentoWhereUniqueInput[]
     connect?: AgendamentoWhereUniqueInput | AgendamentoWhereUniqueInput[]
+    update?: AgendamentoUpdateWithWhereUniqueWithoutClienteInput | AgendamentoUpdateWithWhereUniqueWithoutClienteInput[]
+    updateMany?: AgendamentoUpdateManyWithWhereWithoutClienteInput | AgendamentoUpdateManyWithWhereWithoutClienteInput[]
+    deleteMany?: AgendamentoScalarWhereInput | AgendamentoScalarWhereInput[]
   }
 
   export type PetUpdateManyWithoutClienteNestedInput = {
@@ -9713,7 +9894,21 @@ export namespace Prisma {
     deleteMany?: PetScalarWhereInput | PetScalarWhereInput[]
   }
 
-  export type AgendamentoUpdateManyWithoutClienteNestedInput = {
+  export type SolicitacaoUncheckedUpdateManyWithoutClienteNestedInput = {
+    create?: XOR<SolicitacaoCreateWithoutClienteInput, SolicitacaoUncheckedCreateWithoutClienteInput> | SolicitacaoCreateWithoutClienteInput[] | SolicitacaoUncheckedCreateWithoutClienteInput[]
+    connectOrCreate?: SolicitacaoCreateOrConnectWithoutClienteInput | SolicitacaoCreateOrConnectWithoutClienteInput[]
+    upsert?: SolicitacaoUpsertWithWhereUniqueWithoutClienteInput | SolicitacaoUpsertWithWhereUniqueWithoutClienteInput[]
+    createMany?: SolicitacaoCreateManyClienteInputEnvelope
+    set?: SolicitacaoWhereUniqueInput | SolicitacaoWhereUniqueInput[]
+    disconnect?: SolicitacaoWhereUniqueInput | SolicitacaoWhereUniqueInput[]
+    delete?: SolicitacaoWhereUniqueInput | SolicitacaoWhereUniqueInput[]
+    connect?: SolicitacaoWhereUniqueInput | SolicitacaoWhereUniqueInput[]
+    update?: SolicitacaoUpdateWithWhereUniqueWithoutClienteInput | SolicitacaoUpdateWithWhereUniqueWithoutClienteInput[]
+    updateMany?: SolicitacaoUpdateManyWithWhereWithoutClienteInput | SolicitacaoUpdateManyWithWhereWithoutClienteInput[]
+    deleteMany?: SolicitacaoScalarWhereInput | SolicitacaoScalarWhereInput[]
+  }
+
+  export type AgendamentoUncheckedUpdateManyWithoutClienteNestedInput = {
     create?: XOR<AgendamentoCreateWithoutClienteInput, AgendamentoUncheckedCreateWithoutClienteInput> | AgendamentoCreateWithoutClienteInput[] | AgendamentoUncheckedCreateWithoutClienteInput[]
     connectOrCreate?: AgendamentoCreateOrConnectWithoutClienteInput | AgendamentoCreateOrConnectWithoutClienteInput[]
     upsert?: AgendamentoUpsertWithWhereUniqueWithoutClienteInput | AgendamentoUpsertWithWhereUniqueWithoutClienteInput[]
@@ -9739,20 +9934,6 @@ export namespace Prisma {
     update?: PetUpdateWithWhereUniqueWithoutClienteInput | PetUpdateWithWhereUniqueWithoutClienteInput[]
     updateMany?: PetUpdateManyWithWhereWithoutClienteInput | PetUpdateManyWithWhereWithoutClienteInput[]
     deleteMany?: PetScalarWhereInput | PetScalarWhereInput[]
-  }
-
-  export type AgendamentoUncheckedUpdateManyWithoutClienteNestedInput = {
-    create?: XOR<AgendamentoCreateWithoutClienteInput, AgendamentoUncheckedCreateWithoutClienteInput> | AgendamentoCreateWithoutClienteInput[] | AgendamentoUncheckedCreateWithoutClienteInput[]
-    connectOrCreate?: AgendamentoCreateOrConnectWithoutClienteInput | AgendamentoCreateOrConnectWithoutClienteInput[]
-    upsert?: AgendamentoUpsertWithWhereUniqueWithoutClienteInput | AgendamentoUpsertWithWhereUniqueWithoutClienteInput[]
-    createMany?: AgendamentoCreateManyClienteInputEnvelope
-    set?: AgendamentoWhereUniqueInput | AgendamentoWhereUniqueInput[]
-    disconnect?: AgendamentoWhereUniqueInput | AgendamentoWhereUniqueInput[]
-    delete?: AgendamentoWhereUniqueInput | AgendamentoWhereUniqueInput[]
-    connect?: AgendamentoWhereUniqueInput | AgendamentoWhereUniqueInput[]
-    update?: AgendamentoUpdateWithWhereUniqueWithoutClienteInput | AgendamentoUpdateWithWhereUniqueWithoutClienteInput[]
-    updateMany?: AgendamentoUpdateManyWithWhereWithoutClienteInput | AgendamentoUpdateManyWithWhereWithoutClienteInput[]
-    deleteMany?: AgendamentoScalarWhereInput | AgendamentoScalarWhereInput[]
   }
 
   export type AtendimentoCreateNestedManyWithoutFuncionarioInput = {
@@ -9823,6 +10004,20 @@ export namespace Prisma {
     upsert?: FuncionarioUpsertWithoutAtendimentosInput
     connect?: FuncionarioWhereUniqueInput
     update?: XOR<XOR<FuncionarioUpdateToOneWithWhereWithoutAtendimentosInput, FuncionarioUpdateWithoutAtendimentosInput>, FuncionarioUncheckedUpdateWithoutAtendimentosInput>
+  }
+
+  export type ClienteCreateNestedOneWithoutSolicitacoesInput = {
+    create?: XOR<ClienteCreateWithoutSolicitacoesInput, ClienteUncheckedCreateWithoutSolicitacoesInput>
+    connectOrCreate?: ClienteCreateOrConnectWithoutSolicitacoesInput
+    connect?: ClienteWhereUniqueInput
+  }
+
+  export type ClienteUpdateOneRequiredWithoutSolicitacoesNestedInput = {
+    create?: XOR<ClienteCreateWithoutSolicitacoesInput, ClienteUncheckedCreateWithoutSolicitacoesInput>
+    connectOrCreate?: ClienteCreateOrConnectWithoutSolicitacoesInput
+    upsert?: ClienteUpsertWithoutSolicitacoesInput
+    connect?: ClienteWhereUniqueInput
+    update?: XOR<XOR<ClienteUpdateToOneWithWhereWithoutSolicitacoesInput, ClienteUpdateWithoutSolicitacoesInput>, ClienteUncheckedUpdateWithoutSolicitacoesInput>
   }
 
   export type ClienteCreateNestedOneWithoutAgendamentosInput = {
@@ -10044,6 +10239,7 @@ export namespace Prisma {
     endereço: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    solicitacoes?: SolicitacaoCreateNestedManyWithoutClienteInput
     agendamentos?: AgendamentoCreateNestedManyWithoutClienteInput
   }
 
@@ -10055,6 +10251,7 @@ export namespace Prisma {
     endereço: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    solicitacoes?: SolicitacaoUncheckedCreateNestedManyWithoutClienteInput
     agendamentos?: AgendamentoUncheckedCreateNestedManyWithoutClienteInput
   }
 
@@ -10136,6 +10333,7 @@ export namespace Prisma {
     endereço?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    solicitacoes?: SolicitacaoUpdateManyWithoutClienteNestedInput
     agendamentos?: AgendamentoUpdateManyWithoutClienteNestedInput
   }
 
@@ -10147,7 +10345,56 @@ export namespace Prisma {
     endereço?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    solicitacoes?: SolicitacaoUncheckedUpdateManyWithoutClienteNestedInput
     agendamentos?: AgendamentoUncheckedUpdateManyWithoutClienteNestedInput
+  }
+
+  export type SolicitacaoCreateWithoutClienteInput = {
+    descricao: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SolicitacaoUncheckedCreateWithoutClienteInput = {
+    id?: number
+    descricao: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SolicitacaoCreateOrConnectWithoutClienteInput = {
+    where: SolicitacaoWhereUniqueInput
+    create: XOR<SolicitacaoCreateWithoutClienteInput, SolicitacaoUncheckedCreateWithoutClienteInput>
+  }
+
+  export type SolicitacaoCreateManyClienteInputEnvelope = {
+    data: SolicitacaoCreateManyClienteInput | SolicitacaoCreateManyClienteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AgendamentoCreateWithoutClienteInput = {
+    data: Date | string
+    servico: string
+    pet: PetCreateNestedOneWithoutAgendamentosInput
+  }
+
+  export type AgendamentoUncheckedCreateWithoutClienteInput = {
+    id?: number
+    data: Date | string
+    servico: string
+    petId: number
+  }
+
+  export type AgendamentoCreateOrConnectWithoutClienteInput = {
+    where: AgendamentoWhereUniqueInput
+    create: XOR<AgendamentoCreateWithoutClienteInput, AgendamentoUncheckedCreateWithoutClienteInput>
+  }
+
+  export type AgendamentoCreateManyClienteInputEnvelope = {
+    data: AgendamentoCreateManyClienteInput | AgendamentoCreateManyClienteInput[]
+    skipDuplicates?: boolean
   }
 
   export type PetCreateWithoutClienteInput = {
@@ -10185,27 +10432,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type AgendamentoCreateWithoutClienteInput = {
-    data: Date | string
-    servico: string
-    pet: PetCreateNestedOneWithoutAgendamentosInput
+  export type SolicitacaoUpsertWithWhereUniqueWithoutClienteInput = {
+    where: SolicitacaoWhereUniqueInput
+    update: XOR<SolicitacaoUpdateWithoutClienteInput, SolicitacaoUncheckedUpdateWithoutClienteInput>
+    create: XOR<SolicitacaoCreateWithoutClienteInput, SolicitacaoUncheckedCreateWithoutClienteInput>
   }
 
-  export type AgendamentoUncheckedCreateWithoutClienteInput = {
-    id?: number
-    data: Date | string
-    servico: string
-    petId: number
+  export type SolicitacaoUpdateWithWhereUniqueWithoutClienteInput = {
+    where: SolicitacaoWhereUniqueInput
+    data: XOR<SolicitacaoUpdateWithoutClienteInput, SolicitacaoUncheckedUpdateWithoutClienteInput>
   }
 
-  export type AgendamentoCreateOrConnectWithoutClienteInput = {
+  export type SolicitacaoUpdateManyWithWhereWithoutClienteInput = {
+    where: SolicitacaoScalarWhereInput
+    data: XOR<SolicitacaoUpdateManyMutationInput, SolicitacaoUncheckedUpdateManyWithoutClienteInput>
+  }
+
+  export type SolicitacaoScalarWhereInput = {
+    AND?: SolicitacaoScalarWhereInput | SolicitacaoScalarWhereInput[]
+    OR?: SolicitacaoScalarWhereInput[]
+    NOT?: SolicitacaoScalarWhereInput | SolicitacaoScalarWhereInput[]
+    id?: IntFilter<"Solicitacao"> | number
+    descricao?: StringFilter<"Solicitacao"> | string
+    status?: StringFilter<"Solicitacao"> | string
+    createdAt?: DateTimeFilter<"Solicitacao"> | Date | string
+    updatedAt?: DateTimeFilter<"Solicitacao"> | Date | string
+    clienteId?: IntFilter<"Solicitacao"> | number
+  }
+
+  export type AgendamentoUpsertWithWhereUniqueWithoutClienteInput = {
     where: AgendamentoWhereUniqueInput
+    update: XOR<AgendamentoUpdateWithoutClienteInput, AgendamentoUncheckedUpdateWithoutClienteInput>
     create: XOR<AgendamentoCreateWithoutClienteInput, AgendamentoUncheckedCreateWithoutClienteInput>
   }
 
-  export type AgendamentoCreateManyClienteInputEnvelope = {
-    data: AgendamentoCreateManyClienteInput | AgendamentoCreateManyClienteInput[]
-    skipDuplicates?: boolean
+  export type AgendamentoUpdateWithWhereUniqueWithoutClienteInput = {
+    where: AgendamentoWhereUniqueInput
+    data: XOR<AgendamentoUpdateWithoutClienteInput, AgendamentoUncheckedUpdateWithoutClienteInput>
+  }
+
+  export type AgendamentoUpdateManyWithWhereWithoutClienteInput = {
+    where: AgendamentoScalarWhereInput
+    data: XOR<AgendamentoUpdateManyMutationInput, AgendamentoUncheckedUpdateManyWithoutClienteInput>
   }
 
   export type PetUpsertWithWhereUniqueWithoutClienteInput = {
@@ -10237,22 +10505,6 @@ export namespace Prisma {
     idcliente?: IntFilter<"Pet"> | number
     createdAt?: DateTimeFilter<"Pet"> | Date | string
     updatedAt?: DateTimeFilter<"Pet"> | Date | string
-  }
-
-  export type AgendamentoUpsertWithWhereUniqueWithoutClienteInput = {
-    where: AgendamentoWhereUniqueInput
-    update: XOR<AgendamentoUpdateWithoutClienteInput, AgendamentoUncheckedUpdateWithoutClienteInput>
-    create: XOR<AgendamentoCreateWithoutClienteInput, AgendamentoUncheckedCreateWithoutClienteInput>
-  }
-
-  export type AgendamentoUpdateWithWhereUniqueWithoutClienteInput = {
-    where: AgendamentoWhereUniqueInput
-    data: XOR<AgendamentoUpdateWithoutClienteInput, AgendamentoUncheckedUpdateWithoutClienteInput>
-  }
-
-  export type AgendamentoUpdateManyWithWhereWithoutClienteInput = {
-    where: AgendamentoScalarWhereInput
-    data: XOR<AgendamentoUpdateManyMutationInput, AgendamentoUncheckedUpdateManyWithoutClienteInput>
   }
 
   export type AtendimentoCreateWithoutFuncionarioInput = {
@@ -10416,6 +10668,68 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ClienteCreateWithoutSolicitacoesInput = {
+    nome: string
+    telefone: string
+    email: string
+    endereço: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    agendamentos?: AgendamentoCreateNestedManyWithoutClienteInput
+    pets?: PetCreateNestedManyWithoutClienteInput
+  }
+
+  export type ClienteUncheckedCreateWithoutSolicitacoesInput = {
+    id?: number
+    nome: string
+    telefone: string
+    email: string
+    endereço: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    agendamentos?: AgendamentoUncheckedCreateNestedManyWithoutClienteInput
+    pets?: PetUncheckedCreateNestedManyWithoutClienteInput
+  }
+
+  export type ClienteCreateOrConnectWithoutSolicitacoesInput = {
+    where: ClienteWhereUniqueInput
+    create: XOR<ClienteCreateWithoutSolicitacoesInput, ClienteUncheckedCreateWithoutSolicitacoesInput>
+  }
+
+  export type ClienteUpsertWithoutSolicitacoesInput = {
+    update: XOR<ClienteUpdateWithoutSolicitacoesInput, ClienteUncheckedUpdateWithoutSolicitacoesInput>
+    create: XOR<ClienteCreateWithoutSolicitacoesInput, ClienteUncheckedCreateWithoutSolicitacoesInput>
+    where?: ClienteWhereInput
+  }
+
+  export type ClienteUpdateToOneWithWhereWithoutSolicitacoesInput = {
+    where?: ClienteWhereInput
+    data: XOR<ClienteUpdateWithoutSolicitacoesInput, ClienteUncheckedUpdateWithoutSolicitacoesInput>
+  }
+
+  export type ClienteUpdateWithoutSolicitacoesInput = {
+    nome?: StringFieldUpdateOperationsInput | string
+    telefone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    endereço?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agendamentos?: AgendamentoUpdateManyWithoutClienteNestedInput
+    pets?: PetUpdateManyWithoutClienteNestedInput
+  }
+
+  export type ClienteUncheckedUpdateWithoutSolicitacoesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nome?: StringFieldUpdateOperationsInput | string
+    telefone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    endereço?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agendamentos?: AgendamentoUncheckedUpdateManyWithoutClienteNestedInput
+    pets?: PetUncheckedUpdateManyWithoutClienteNestedInput
+  }
+
   export type ClienteCreateWithoutAgendamentosInput = {
     nome: string
     telefone: string
@@ -10423,6 +10737,7 @@ export namespace Prisma {
     endereço: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    solicitacoes?: SolicitacaoCreateNestedManyWithoutClienteInput
     pets?: PetCreateNestedManyWithoutClienteInput
   }
 
@@ -10434,6 +10749,7 @@ export namespace Prisma {
     endereço: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    solicitacoes?: SolicitacaoUncheckedCreateNestedManyWithoutClienteInput
     pets?: PetUncheckedCreateNestedManyWithoutClienteInput
   }
 
@@ -10490,6 +10806,7 @@ export namespace Prisma {
     endereço?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    solicitacoes?: SolicitacaoUpdateManyWithoutClienteNestedInput
     pets?: PetUpdateManyWithoutClienteNestedInput
   }
 
@@ -10501,6 +10818,7 @@ export namespace Prisma {
     endereço?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    solicitacoes?: SolicitacaoUncheckedUpdateManyWithoutClienteNestedInput
     pets?: PetUncheckedUpdateManyWithoutClienteNestedInput
   }
 
@@ -10598,6 +10916,21 @@ export namespace Prisma {
     clienteId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type SolicitacaoCreateManyClienteInput = {
+    id?: number
+    descricao: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AgendamentoCreateManyClienteInput = {
+    id?: number
+    data: Date | string
+    servico: string
+    petId: number
+  }
+
   export type PetCreateManyClienteInput = {
     id?: number
     nome: string
@@ -10609,11 +10942,47 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type AgendamentoCreateManyClienteInput = {
-    id?: number
-    data: Date | string
-    servico: string
-    petId: number
+  export type SolicitacaoUpdateWithoutClienteInput = {
+    descricao?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SolicitacaoUncheckedUpdateWithoutClienteInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descricao?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SolicitacaoUncheckedUpdateManyWithoutClienteInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descricao?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgendamentoUpdateWithoutClienteInput = {
+    data?: DateTimeFieldUpdateOperationsInput | Date | string
+    servico?: StringFieldUpdateOperationsInput | string
+    pet?: PetUpdateOneRequiredWithoutAgendamentosNestedInput
+  }
+
+  export type AgendamentoUncheckedUpdateWithoutClienteInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    data?: DateTimeFieldUpdateOperationsInput | Date | string
+    servico?: StringFieldUpdateOperationsInput | string
+    petId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AgendamentoUncheckedUpdateManyWithoutClienteInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    data?: DateTimeFieldUpdateOperationsInput | Date | string
+    servico?: StringFieldUpdateOperationsInput | string
+    petId?: IntFieldUpdateOperationsInput | number
   }
 
   export type PetUpdateWithoutClienteInput = {
@@ -10650,26 +11019,6 @@ export namespace Prisma {
     idade?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AgendamentoUpdateWithoutClienteInput = {
-    data?: DateTimeFieldUpdateOperationsInput | Date | string
-    servico?: StringFieldUpdateOperationsInput | string
-    pet?: PetUpdateOneRequiredWithoutAgendamentosNestedInput
-  }
-
-  export type AgendamentoUncheckedUpdateWithoutClienteInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    data?: DateTimeFieldUpdateOperationsInput | Date | string
-    servico?: StringFieldUpdateOperationsInput | string
-    petId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type AgendamentoUncheckedUpdateManyWithoutClienteInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    data?: DateTimeFieldUpdateOperationsInput | Date | string
-    servico?: StringFieldUpdateOperationsInput | string
-    petId?: IntFieldUpdateOperationsInput | number
   }
 
   export type AtendimentoCreateManyFuncionarioInput = {
