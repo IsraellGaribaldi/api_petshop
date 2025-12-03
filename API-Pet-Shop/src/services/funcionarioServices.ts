@@ -1,5 +1,5 @@
 // Importa a instância do PrismaClient para interagir com o banco de dados.
-import  prisma  from '../db/prisma/prisma';
+import { prisma } from '../db/prisma/prisma.ts'; // CORRIGIDO: Agora é importação nomeada
 // Importa o tipo Funcionario gerado pelo Prisma.
 import { Funcionario } from '../generated/prisma';
 
@@ -11,29 +11,29 @@ type FuncionarioUpdateData = Partial<FuncionarioCreateData>;
 // Função para criar um novo funcionário no banco de dados.
 export const create = async (data: FuncionarioCreateData): Promise<Funcionario> => {
   return prisma.funcionario.create({
-    data,
-  });
+  data,
+ });
 };
 
 // Função para buscar todos os funcionários no banco de dados.
 export const getAll = async (): Promise<Funcionario[]> => {
-  return prisma.funcionario.findMany();
+ return prisma.funcionario.findMany();
 };
 
 // Função para buscar um funcionário pelo ID no banco de dados.
 export const getById = async (id: number): Promise<Funcionario | null> => {
-  return prisma.funcionario.findUnique({ where: { id } });
+ return prisma.funcionario.findUnique({ where: { id } });
 };
 
 // Função para atualizar um funcionário no banco de dados.
 export const update = async (id: number, data: FuncionarioUpdateData): Promise<Funcionario> => {
   return prisma.funcionario.update({
-    where: { id },
-    data,
-  });
+  where: { id },
+  data,
+ });
 };
 
 // Função para remover um funcionário do banco de dados.
 export const remove = async (id: number): Promise<Funcionario> => {
-  return prisma.funcionario.delete({ where: { id } });
+ return prisma.funcionario.delete({ where: { id } });
 };
