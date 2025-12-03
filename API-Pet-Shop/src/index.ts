@@ -35,6 +35,6 @@ app.get("/", (req, res) => {
 // Inicia servidor
 const PORT = 3333;
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
-  console.log(`📘 Swagger disponível em http://localhost:${PORT}/api-docs`);
+  console.log(`🚀 Servidor rodando em ${BASE_URL}`);
+  console.log(`📘 Swagger disponível em ${BASE_URL}`);
 });

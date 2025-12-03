@@ -2,7 +2,8 @@ import { Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
 import PetsPage from "./pages/PetsPage";
-import Home from "./pages/Home";
+import HomeF from "./pages/HomeF";
+import HomeC from "./pages/HomeC";
 import ClientesPage from "./pages/ClientesPage";
 import AtendimentosPage from "./pages/AtendimentosPage";
 import ClienteSolicitacoesPage from "./pages/ClienteSolicitacoesPage";
@@ -17,7 +18,8 @@ export default function App() {
       <Route path="/register/cliente" element={<RegisterCliente />} />
       <Route path="/register/funcionario" element={<RegisterFuncionario />} />
       <Route path="/" element={<Login />} />
-      <Route path="/home" element={<Home />} />
+      <Route path="/home/funcionario" element={<HomeF />} />
+      <Route path="/home/cliente" element={<HomeC />} />
       <Route path="/pets" element={<PetsPage />} />
       <Route path="/clientes" element={<ClientesPage />} />
       <Route path="/atendimentos" element={<AtendimentosPage />} />

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { 
+    Link as RouterLink, 
+    useNavigate // 1. NOVO: Importa o hook de navegação
+} from "react-router-dom";
 import { Link as MuiLink } from "@mui/material";
 
 import {
@@ -24,17 +27,22 @@ interface LoginFormData {
   password: string;
 }
 
+// 2. NOVO: Interface atualizada para incluir 'token' e 'tipo'
 interface LoginResponse {
   success: boolean;
   message: string;
-  user?: {
+  token: string; // O token JWT retornado pelo Backend
+  user: {
     id: string;
     nome: string;
     email: string;
+    tipo: "cliente" | "funcionario"; // O campo essencial para o redirecionamento
   };
 }
 
 const Login: React.FC = () => {
+  const navigate = useNavigate(); // 3. Inicializa o hook de navegação
+  
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
@@ -43,6 +51,8 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // ... (validateEmail e validatePassword - Omitidos para brevidade) ...
 
   const validateEmail = (email: string) => {
     if (!email.trim()) return { isValid: false, error: "" };
@@ -92,13 +102,36 @@ const Login: React.FC = () => {
 
     try {
       const response = await axios.post<LoginResponse>(
-        "http://localhost:3333/login",
+        "https://api-petshop-5qe7.onrender.com/", // 
         formData
       );
 
       const data = response.data;
+      
+      // 4. Ações de Sucesso: Salvar Token e Redirecionar
+      
+      // Salvar o Token JWT para ser usado em requisições protegidas
+      localStorage.setItem("authToken", data.token); 
+      
+      // Opcional: Salvar o tipo de usuário para futuras verificações no Frontend
+      localStorage.setItem("userType", data.user.tipo);
+
       setSuccess(data.message || "Login realizado com sucesso!");
+
+      // ** Lógica de Redirecionamento Condicional **
+      if (data.user.tipo === "funcionario") {
+          // Redireciona para a rota do funcionário (que deve renderizar HomeF)
+          navigate('/home/funcionario'); 
+      } else if (data.user.tipo === "cliente") {
+          // Redireciona para a rota do cliente (que deve renderizar HomeC)
+          navigate('/home/cliente');
+      } else {
+          // Fallback, caso o tipo não seja reconhecido
+          navigate('/'); 
+      }
+
     } catch (error) {
+      // ... (Bloco de tratamento de erros permanece inalterado) ...
       if (axios.isAxiosError(error)) {
         const errorMessage =
           error.response?.data?.message ||
@@ -116,6 +149,7 @@ const Login: React.FC = () => {
     }
   };
 
+  // ... (Restante do JSX permanece inalterado) ...
   return (
     <Box
       display="flex"
@@ -135,7 +169,7 @@ const Login: React.FC = () => {
         </Box>
 
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-        {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
+        {/* Remover 'success' do JSX ou o redirecionamento será muito rápido para ver a mensagem */}
 
         <Box component="form" noValidate onSubmit={handleSubmit}>
           <TextField
