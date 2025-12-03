@@ -1,8 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { setupSwagger } from "./swagger.js";
-import 'dotenv/config'; 
-import { prisma } from './db/prisma/prisma.ts'; 
+import 'dotenv/config';  
 
 import atendimentoRoutes from "./routes/atendimentoRoutes.js";
 import clienteRoutes from "./routes/clienteRoutes.js";
