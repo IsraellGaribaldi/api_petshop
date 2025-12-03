@@ -12,10 +12,10 @@ dist
 dist-ssr
 .env
 *.local
-node_modules
 
 # Editor directories and files
 .vscode/*
+/node_modules
 !.vscode/extensions.json
 .idea
 .DS_Store
