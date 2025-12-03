@@ -5,10 +5,13 @@ const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
   throw new Error("A variável de ambiente DATABASE_URL não está definida. Verifique seu arquivo .env.");
 }
+// Use runtime require to avoid ESM/CJS interop export-shape differences on deploy
+// (keeps behavior consistent between local TS compile and deployed CommonJS runtime).
+const prismaPkg = require('@prisma/client');
 
 // Extract PrismaClient constructor robustly by checking common export shapes.
 let PrismaClientCtor: any = undefined;
-const pkgAny = prismaPkg as any;
+const pkgAny = prismaPkg;
 if (typeof pkgAny.PrismaClient === 'function') {
   PrismaClientCtor = pkgAny.PrismaClient;
 } else if (pkgAny.default && typeof pkgAny.default.PrismaClient === 'function') {
