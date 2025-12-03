@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "commonjs",
+    "rootDir": "./src",            // Pasta onde estão seus arquivos .ts
+    "outDir": "./dist",            // Pasta onde o código .js compilado será salvo
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "lib": ["es2022"]             // Apenas a biblioteca padrão do JavaScript, sem 'dom'
+  }
+}
