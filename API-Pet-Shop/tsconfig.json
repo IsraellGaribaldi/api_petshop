@@ -2,23 +2,21 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "ESNext",
-    "moduleResolution": "bundler", 
+    "moduleResolution": "bundler",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "outDir": "dist",
-    "allowImportingTsExtensions": true,
-    "noEmit": true, 
-    "baseUrl": ".", 
-    // Corrigido: O paths não pode conter a seção scripts.
-    "paths": {
-      // Ajuste ou remova esta linha se você não a estiver usando para um alias:
-      "@prisma/client": ["./node_modules/@prisma/client"]
-    }
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+
+    // ADICIONADO NO LUGAR CORRETO
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ]
   },
-  "ts-node": {
-    "esm": true
-  },
+
   "include": ["src", "prisma.config.ts"],
   "exclude": ["node_modules", "dist"]
 }

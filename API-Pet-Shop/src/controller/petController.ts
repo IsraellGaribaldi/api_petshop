@@ -1,5 +1,5 @@
 // Importa os tipos Request e Response do Express (para tipar as requisições e respostas HTTP)
-import { Request, Response } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 
 // Importa todas as funções do serviço de pets (create, getAll, getById, update, remove)
 import * as petService from '../services/petServices.ts';

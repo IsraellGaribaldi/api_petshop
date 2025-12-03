@@ -1,5 +1,5 @@
 // Importa os tipos Request e Response do Express para tipagem
-import { Request, Response } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 
 // Importa todas as funções do serviço de solicitações (assumindo que o nome do arquivo de serviço é 'solicitacaoServices')
 import * as solicitacaoService from '../services/solicitacaoServices.ts';

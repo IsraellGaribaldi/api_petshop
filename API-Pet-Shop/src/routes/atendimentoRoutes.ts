@@ -8,15 +8,15 @@ import {
   getAtendimentoById,
   updateAtendimento,
   deleteAtendimento,
-} from "../controller/atendimentosController.ts";
+} from "../controller/atendimentosController";
 // Importa os middlewares de validação, que garantem que os dados da requisição estão no formato correto.
-import { validateBody, validateParams } from "../middlewares/validation.ts";
+import { validateBody, validateParams } from "../middlewares/validation";
 // Importa os schemas de validação do Zod, que definem a estrutura dos dados da requisição.
 import {
   createAtendimentoSchema,
   updateAtendimentoSchema,
   idParamSchema,
-} from "../schemas/validation.ts";
+} from "../schemas/validation";
 
 // Cria uma nova instância do Router.
 const router = Router();

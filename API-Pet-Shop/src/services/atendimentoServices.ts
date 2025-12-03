@@ -1,7 +1,7 @@
 // 📄 services/atendimentoServices.ts
 
 // Importa a instância do PrismaClient (já corrigido em arquivos anteriores).
-import { prisma } from '../db/prisma/prisma.ts'; 
+import { prisma } from '../db/prisma/prisma'; 
 
 // LINHA REMOVIDA: import { Prisma } from '@prisma/client'; 
 // A remoção desta linha elimina o erro ts(2305)

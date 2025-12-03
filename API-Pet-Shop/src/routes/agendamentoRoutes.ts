@@ -1,4 +1,5 @@
-import { Router, Request, Response } from "express";
+import type { Request, Response, NextFunction} from "express";
+import { Router } from "express";
 import { prisma } from '../db/prisma/prisma.ts'; // 👈 Keep this import
 
 // REMOVA: import { PrismaClient } from "@prisma/client"; // (Not needed here)

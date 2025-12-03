@@ -7,15 +7,15 @@ import {
   getSolicitacaoById,
   updateSolicitacao,
   deleteSolicitacao,
-} from "../controller/solicitacaoController.ts"; // Ajustado para o controller de solicitações
+} from "../controller/solicitacaoController"; // Ajustado para o controller de solicitações
 // Importa os middlewares de validação.
-import { validateBody, validateParams } from "../middlewares/validation.ts";
+import { validateBody, validateParams } from "../middlewares/validation";
 // Importa os schemas de validação do Zod para solicitação.
 import {
   createSolicitacaoSchema, // Assumindo que você terá um schema de criação
   updateSolicitacaoSchema, // Assumindo que você terá um schema de atualização
   idParamSchema, // Reutilizando o schema de validação de ID
-} from "../schemas/validation.ts"; // Ajuste o path conforme necessário
+} from "../schemas/validation"; // Ajuste o path conforme necessário
 
 // Cria uma nova instância do Router.
 const router = Router();
