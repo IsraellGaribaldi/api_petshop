@@ -1,23 +1,18 @@
-// src/db/prisma/prisma.ts (VERSÃO CORRIGIDA E SIMPLIFICADA)
+// 📄 src/db/prisma/prisma.ts
 
-// 1. Importação Padrão do Prisma Client
-// Tente SEMPRE usar o caminho padrão primeiro, pois ele é o mais estável.
+// 1. CORRIGIDO: Voltamos para a importação nomeada.
+// O TypeScript exige essa sintaxe para reconhecer PrismaClient como construtor.
 import { PrismaClient } from '@prisma/client'; 
 
-// 2. Comentamos o Pool e o Adapter para ISOLAR o erro.
-// import { Pool } from 'pg'; 
-// import { PrismaPg as PostgreSQLAdapter } from '@prisma/adapter-pg'; 
+// 2. O restante do código permanece o mesmo, pois o TS agora reconhece o construtor:
 
-
-// 3. Verificação de URL
 const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
-  throw new Error("A variável de ambiente DATABASE_URL não está definida. Verifique seu arquivo .env.");
+ throw new Error("A variável de ambiente DATABASE_URL não está definida. Verifique seu arquivo .env.");
 }
 
-// 4. Instanciação SIMPLES do Prisma (Sem Adapter)
-// Usando a conexão padrão via DATABASE_URL
+// 4. Instanciação SIMPLES do Prisma 
 const prisma = new PrismaClient(); 
 
 // Exportação
