@@ -7,6 +7,7 @@
     "build": "npx tsc",
     "start": "node dist/src/index.js",
     "prisma:generate": "prisma generate",
+    "postinstall": "npx prisma generate",
     "seed:deploy": "node ./dist/prisma/seed.js",
     "dev": "node --import tsx --import dotenv/config src/index.ts"
   },
