@@ -1,7 +1,7 @@
 // Importa a instância do PrismaClient para interagir com o banco de dados.
-import { prisma } from '../db/prisma/prisma.ts'; // CORRIGIDO: Agora é importação nomeada
+import { prisma } from '../db/prisma/prisma.ts'; 
 // Importa o tipo Funcionario gerado pelo Prisma.
-import { Funcionario } from '../generated/prisma';
+import { Funcionario } from '../generated/prisma/index.ts';
 
 // Define o tipo para a criação de um novo funcionário. Omitimos 'id', 'createdAt' e 'updatedAt' porque são gerenciados pelo banco de dados.
 type FuncionarioCreateData = Omit<Funcionario, 'id' | 'createdAt' | 'updatedAt'>;
