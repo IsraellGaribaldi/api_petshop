@@ -11,19 +11,25 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { Badge as BadgeIcon } from "@mui/icons-material";
-import axios from "axios";
 import { z } from "zod";
+
+import { FuncionarioService } from "../services/FuncionariosServices";
 
 const registerSchema = z.object({
   nome: z.string().min(3, "O nome deve ter pelo menos 3 caracteres"),
   email: z.string().email("Email inválido"),
-  password: z.string().min(4, "A senha deve ter pelo menos 4 caracteres"),
+  senha: z.string().min(4, "A senha deve ter pelo menos 4 caracteres"),
+  telefone: z.string().min(8, "Telefone inválido"),
+  endereco: z.string().min(4, "Endereço obrigatório"),
 });
 
 const RegisterFuncionario: React.FC = () => {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [senha, setSenha] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [endereco, setEndereco] = useState("");
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +39,13 @@ const RegisterFuncionario: React.FC = () => {
     setError("");
     setSuccess("");
 
-    const result = registerSchema.safeParse({ nome, email, password });
+    const result = registerSchema.safeParse({
+      nome,
+      email,
+      senha,
+      telefone,
+      endereco,
+    });
 
     if (!result.success) {
       setError(result.error.issues[0].message);
@@ -43,25 +55,24 @@ const RegisterFuncionario: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:3333/register", {
+      await FuncionarioService.create({
         nome,
+        telefone,
         email,
-        password,
-        tipo: "funcionario",
+        senha,
+        endereco,
       });
 
-      setSuccess(response.data.message || "Conta criada com sucesso!");
+      setSuccess("Funcionário registrado com sucesso!");
       setNome("");
       setEmail("");
-      setPassword("");
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        setError(
-          err.response?.data?.message || "Erro ao registrar. Tente novamente."
-        );
-      } else {
-        setError("Erro inesperado. Verifique o servidor.");
-      }
+      setSenha("");
+      setTelefone("");
+      setEndereco("");
+    } catch (err: any) {
+      setError(
+        err?.response?.data?.message || "Erro ao registrar. Tente novamente."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -83,16 +94,8 @@ const RegisterFuncionario: React.FC = () => {
           </Typography>
         </Box>
 
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
-        {success && (
-          <Alert severity="success" sx={{ mb: 2 }}>
-            {success}
-          </Alert>
-        )}
+        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+        {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
 
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
@@ -115,12 +118,30 @@ const RegisterFuncionario: React.FC = () => {
           />
 
           <TextField
+            label="Telefone"
+            fullWidth
+            margin="normal"
+            value={telefone}
+            onChange={(e) => setTelefone(e.target.value)}
+            required
+          />
+
+          <TextField
+            label="Endereço"
+            fullWidth
+            margin="normal"
+            value={endereco}
+            onChange={(e) => setEndereco(e.target.value)}
+            required
+          />
+
+          <TextField
             label="Senha"
             type="password"
             fullWidth
             margin="normal"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
             required
           />
 
@@ -144,11 +165,7 @@ const RegisterFuncionario: React.FC = () => {
 
           <Typography textAlign="center" variant="body2" mt={3}>
             Já possui uma conta?{" "}
-            <MuiLink
-              component={RouterLink}
-              to="/"
-              sx={{ textDecoration: "none", fontWeight: "bold" }}
-            >
+            <MuiLink component={RouterLink} to="/" sx={{ textDecoration: "none", fontWeight: "bold" }}>
               Entrar
             </MuiLink>
           </Typography>
@@ -169,4 +186,4 @@ const RegisterFuncionario: React.FC = () => {
   );
 };
 
-export default RegisterFuncionario; 
+export default RegisterFuncionario;
