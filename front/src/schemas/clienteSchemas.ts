@@ -12,6 +12,7 @@ export const createClienteSchema = z.object({
   telefone: z.string().min(8, "Telefone inválido"),
   endereco: z.string().min(3, "Endereço é obrigatório"),
   email: z.string().email("Email inválido"),
+  senha: z.string().min(4, "A senha deve ter pelo menos 4 caracteres"),
   pet: petSchema.optional(),
 });
 

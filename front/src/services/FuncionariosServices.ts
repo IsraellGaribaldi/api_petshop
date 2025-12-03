@@ -6,13 +6,14 @@ export interface CreateFuncionarioDTO {
     nome: string;
     telefone: string;
     email: string;
-    cargo: string;
-    salario: number;
-    data_admissao: string;
+    senha: string;
+    endereco: string;
 }
 
 export interface Funcionario extends CreateFuncionarioDTO {
     id: number;
+    createdat: string;
+    updatedat: string;
 }
 
 export const FuncionarioService = {

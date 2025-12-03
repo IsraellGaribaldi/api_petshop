@@ -37,7 +37,7 @@ export const authService = {
           senha: hashedPassword,
           nome: data.nome,
           telefone: data.telefone,
-          endereço: data.endereco
+          endereco: data.endereco
         }
       });
       return { id: funcionario.id, email: funcionario.email, userType: 'FUNCIONARIO' };

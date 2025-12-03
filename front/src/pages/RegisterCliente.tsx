@@ -11,19 +11,24 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { PersonAdd as PersonAddIcon } from "@mui/icons-material";
-import axios from "axios";
 import { z } from "zod";
+
+import { ClienteService } from "../services/ClienteServices";
 
 const registerSchema = z.object({
   nome: z.string().min(3, "O nome deve ter pelo menos 3 caracteres"),
   email: z.string().email("Email inválido"),
   password: z.string().min(4, "A senha deve ter pelo menos 4 caracteres"),
+  telefone: z.string().min(8, "Telefone inválido"),
+  endereco: z.string().min(4, "Endereço obrigatório"),
 });
 
 const RegisterCliente: React.FC = () => {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [endereco, setEndereco] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +38,13 @@ const RegisterCliente: React.FC = () => {
     setError("");
     setSuccess("");
 
-    const result = registerSchema.safeParse({ nome, email, password });
+    const result = registerSchema.safeParse({
+      nome,
+      email,
+      password,
+      telefone,
+      endereco,
+    });
 
     if (!result.success) {
       setError(result.error.issues[0].message);
@@ -43,25 +54,28 @@ const RegisterCliente: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:3333/register", {
+      // envia exatamente os campos que o backend/prisma espera
+      const novoCliente = await ClienteService.create({
         nome,
+        telefone,
         email,
-        password,
-        tipo: "cliente",
+        senha: password, // mapeia password -> senha no DTO
+        endereco,
       });
 
-      setSuccess(response.data.message || "Conta criada com sucesso!");
+      setSuccess("Cliente registrado com sucesso!");
+      console.log(novoCliente);
+
+      // limpa formulário
       setNome("");
       setEmail("");
       setPassword("");
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        setError(
-          err.response?.data?.message || "Erro ao registrar. Tente novamente."
-        );
-      } else {
-        setError("Erro inesperado. Verifique o servidor.");
-      }
+      setTelefone("");
+      setEndereco("");
+    } catch (err: any) {
+      setError(
+        err?.response?.data?.message || "Erro ao registrar. Tente novamente."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -111,6 +125,24 @@ const RegisterCliente: React.FC = () => {
             margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+
+          <TextField
+            label="Telefone"
+            fullWidth
+            margin="normal"
+            value={telefone}
+            onChange={(e) => setTelefone(e.target.value)}
+            required
+          />
+
+          <TextField
+            label="Endereço"
+            fullWidth
+            margin="normal"
+            value={endereco}
+            onChange={(e) => setEndereco(e.target.value)}
             required
           />
 

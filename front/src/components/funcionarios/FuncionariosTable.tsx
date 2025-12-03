@@ -1,5 +1,5 @@
 import React from "react";
-import type { funcionario } from "../../types/Funcionario"; // AJUSTE O PATH
+import type { funcionario } from "../../types/Funcionario";
 import {
   Table,
   TableBody,
@@ -13,19 +13,12 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import moment from "moment"; // Necessário para formatar a data/hora
+import moment from "moment";
 
-/**
- * Interface que define as propriedades do componente FuncionariosTable.
- */
 interface FuncionariosTableProps {
-  // Lista de funcionários a serem exibidos na tabela
   funcionarios: funcionario[];
-  // ID do funcionário que está em processo de exclusão (para desabilitar o botão)
   deletingId: number | null;
-  // Callback para a ação de exclusão
   onDelete: (id: number) => void;
-  // Callback para a ação de edição
   onEdit: (funcionario: funcionario) => void;
 }
 
@@ -35,13 +28,11 @@ const FuncionariosTable: React.FC<FuncionariosTableProps> = ({
   onDelete,
   onEdit,
 }) => {
-  // Definição das colunas da tabela
   const colunas: string[] = [
     "Nome",
     "CPF",
     "Email",
     "Telefone",
-    "Endereço",
     "Tipo Atendimento",
     "Data/Hora Atendimento",
     "Ações",
@@ -50,13 +41,11 @@ const FuncionariosTable: React.FC<FuncionariosTableProps> = ({
   return (
     <TableContainer className="mt-4 rounded-lg shadow-md">
       <Table>
-        {/* Cabeçalho da Tabela */}
         <TableHead>
           <TableRow className="bg-gray-800">
             {colunas.map((coluna) => (
               <TableCell
                 key={coluna}
-                // Ajusta o alinhamento de 'Ações' para ficar à direita
                 align={coluna === "Ações" ? "right" : "left"}
                 className="font-bold text-white"
               >
@@ -66,10 +55,8 @@ const FuncionariosTable: React.FC<FuncionariosTableProps> = ({
           </TableRow>
         </TableHead>
 
-        {/* Corpo da Tabela */}
         <TableBody>
           {funcionarios.length === 0 ? (
-            // Linha exibida quando não há dados
             <TableRow>
               <TableCell
                 colSpan={colunas.length}
@@ -80,61 +67,72 @@ const FuncionariosTable: React.FC<FuncionariosTableProps> = ({
               </TableCell>
             </TableRow>
           ) : (
-            // Mapeia e renderiza a linha para cada funcionário
-            funcionarios.map((func) => (
-              <TableRow key={func.idfuncionario} hover className="hover:bg-blue-50">
-                <TableCell align="left">{func.nome}</TableCell>
-                <TableCell align="left">{func.cpf}</TableCell>
-                <TableCell align="left">{func.email}</TableCell>
-                <TableCell align="left">{func.telefone}</TableCell>
-                <TableCell align="left">{func.endereço}</TableCell>
+            funcionarios.map((func) => {
+              // Suporte para as duas estruturas possíveis de atendimento
+              const atendimento =
+                func.Atendimento ?? func.Atendimento?.[0] ?? null;
 
-                {/* Dados de Atendimento */}
-                <TableCell align="left">
-                  {func.Atendimento?.tipoAtendimento || "-"}
-                </TableCell>
-                <TableCell align="left">
-                  {func.Atendimento?.dataHora
-                    ? moment(func.Atendimento.dataHora).format("DD/MM/YYYY HH:mm")
-                    : "-"}
-                </TableCell>
+              return (
+                <TableRow
+                  key={func.idfuncionario}
+                  hover
+                  className="hover:bg-blue-50"
+                >
+                  <TableCell align="left">{func.nome}</TableCell>
+                  <TableCell align="left">{func.cpf}</TableCell>
+                  <TableCell align="left">{func.email}</TableCell>
+                  <TableCell align="left">{func.telefone}</TableCell>
 
-                {/* Coluna de Ações */}
-                <TableCell align="right">
-                  <div className="flex justify-end gap-2">
-                    {/* Botão de Edição */}
-                    <Tooltip title="Editar">
-                      <IconButton
-                        color="primary"
-                        size="small"
-                        onClick={() => onEdit(func)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
+                  {/* Tipo Atendimento */}
+                  <TableCell align="left">
+                    {atendimento?.tipoAtendimento || "-"}
+                  </TableCell>
 
-                    {/* Botão de Exclusão */}
-                    <Tooltip title="Remover">
-                      <IconButton
-                        color="error"
-                        size="small"
-                        onClick={() => onDelete(func.idfuncionario)}
-                        // Desabilita o botão se o funcionário estiver sendo deletado
-                        disabled={deletingId === func.idfuncionario}
-                        aria-label={`remover-${func.idfuncionario}`}
-                      >
-                        {/* Mostra um spinner durante a exclusão */}
-                        {deletingId === func.idfuncionario ? (
-                          <CircularProgress size={20} />
-                        ) : (
-                          <DeleteIcon />
-                        )}
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))
+                  {/* Data/Hora */}
+                  <TableCell align="left">
+                    {atendimento?.dataHora
+                      ? moment(atendimento.dataHora).format(
+                          "DD/MM/YYYY HH:mm"
+                        )
+                      : "-"}
+                  </TableCell>
+
+                  {/* AÇÕES */}
+                  <TableCell align="right">
+                    <div className="flex justify-end gap-2">
+
+                      {/* Editar */}
+                      <Tooltip title="Editar">
+                        <IconButton
+                          color="primary"
+                          size="small"
+                          onClick={() => onEdit(func)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
+
+                      {/* Deletar */}
+                      <Tooltip title="Remover">
+                        <IconButton
+                          color="error"
+                          size="small"
+                          onClick={() => onDelete(func.idfuncionario)}
+                          disabled={deletingId === func.idfuncionario}
+                        >
+                          {deletingId === func.idfuncionario ? (
+                            <CircularProgress size={20} />
+                          ) : (
+                            <DeleteIcon />
+                          )}
+                        </IconButton>
+                      </Tooltip>
+
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })
           )}
         </TableBody>
       </Table>
