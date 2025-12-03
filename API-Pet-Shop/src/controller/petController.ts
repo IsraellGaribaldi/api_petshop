@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 
 // Importa todas as funções do serviço de pets (create, getAll, getById, update, remove)
-import * as petService from '../services/petServices';
+import * as petService from '../services/petServices.ts';
 
 
 export const createPet = async (req: Request, res: Response) => {

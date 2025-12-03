@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 
 // Importa todas as funções do serviço de cliente (create, getAll, getById, update, remove)
-import * as clienteService from '../services/clienteServices';
+import * as clienteService from '../services/clienteServices.ts';
 
 
 export const createCliente = async (req: Request, res: Response) => {

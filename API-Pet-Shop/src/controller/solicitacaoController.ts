@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 
 // Importa todas as funções do serviço de solicitações (assumindo que o nome do arquivo de serviço é 'solicitacaoServices')
-import * as solicitacaoService from '../services/solicitacaoServices';
+import * as solicitacaoService from '../services/solicitacaoServices.ts';
 
 /**
  * Cria uma nova solicitação.

@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { prisma } from '../db/prisma/prisma'; // 👈 Keep this import
+import { prisma } from '../db/prisma/prisma.ts'; // 👈 Keep this import
 
 // REMOVA: import { PrismaClient } from "@prisma/client"; // (Not needed here)
 // REMOVA: const router = Router();
