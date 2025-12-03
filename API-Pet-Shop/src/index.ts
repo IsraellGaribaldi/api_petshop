@@ -1,15 +1,15 @@
 import express from "express";
 import cors from "cors";
-import { setupSwagger } from "./swagger.js";
+import { setupSwagger } from "./swagger.ts";
 import 'dotenv/config'; 
 import { prisma } from './db/prisma/prisma.ts'; 
 
-import atendimentoRoutes from "./routes/atendimentoRoutes.js";
-import clienteRoutes from "./routes/clienteRoutes.js";
-import funcionarioRoutes from "./routes/funcionarioRoutes.js";
-import petRoutes from "./routes/petRoutes.js";
-import loginRoutes from "./routes/loginRoutes.js";
-import agendamentoRoutes from "./routes/agendamentoRoutes.js";
+import atendimentoRoutes from "./routes/atendimentoRoutes.ts";
+import clienteRoutes from "./routes/clienteRoutes.ts";
+import funcionarioRoutes from "./routes/funcionarioRoutes.ts";
+import petRoutes from "./routes/petRoutes.ts";
+import loginRoutes from "./routes/loginRoutes.ts";
+import agendamentoRoutes from "./routes/agendamentoRoutes.ts";
 
 const app = express(); // ✔ TEM QUE VIR ANTES DE app.use()
 

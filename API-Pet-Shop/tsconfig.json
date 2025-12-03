@@ -8,8 +8,12 @@
     "skipLibCheck": true,
     "outDir": "dist",
     "allowImportingTsExtensions": true,
-    "noEmit": true 
+    "noEmit": true, 
+    "baseUrl": ".", 
+    "paths": {
+      "@prisma/client": ["./node_modules/@prisma/client"]
   },
+},
   "ts-node": {
     "esm": true
   },
