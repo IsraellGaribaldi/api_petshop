@@ -3,8 +3,14 @@ import type { Atendimento } from "../types/Atendimento";
 
 const API_BASE = "http://localhost:3333";
 
-export const getAtendimentos = async (): Promise<Atendimento[]> => {
-  const res = await axios.get<Atendimento[]>(`${API_BASE}/atendimentos`);
+// ✅ CORREÇÃO: Adicionado o parâmetro opcional 'clienteId'
+export const getAtendimentos = async (clienteId?: number): Promise<Atendimento[]> => {
+  // Lógica para decidir a URL: se tiver ID, filtra; se não, traz tudo
+  const url = clienteId 
+    ? `${API_BASE}/atendimentos?clienteId=${clienteId}` 
+    : `${API_BASE}/atendimentos`;
+
+  const res = await axios.get<Atendimento[]>(url);
   return res.data;
 };
 

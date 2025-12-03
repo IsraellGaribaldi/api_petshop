@@ -1,33 +1,43 @@
-// Importa os tipos Request e Response do Express, usados para tipar os parâmetros das funções de rota
+// Importa os tipos Request e Response do Express
 import { Request, Response } from 'express';
 
-// Importa todas as funções do módulo 'atendimentoServices' e as agrupa no objeto 'atendimentoService'
-import * as atendimentoServices from '../services/atendimentoServices.ts';
+// ✅ CORREÇÃO: Importação sem a extensão .ts no final
+import * as atendimentoServices from '../services/atendimentoServices';
 
-// Exporta a função 'atendimento' (usada como controlador de rota no Express)
+// Exporta a função 'atendimento' (Criar)
 export const atendimento = async (req: Request, res: Response) => {
   try {
     const newAtendimento = await atendimentoServices.create(req.body);
 
-    // Se der certo, retorna status HTTP 201 (Created) e o objeto do atendimento criado em formato JSON
+    // Se der certo, retorna status HTTP 201 (Created)
     return res.status(201).json(newAtendimento);
 
   } catch (error: any) {
     // Se ocorrer um erro e ele tiver o código 'P2002' (erro de campo único duplicado no Prisma)
     if (error.code === 'P2002') {
-      // Retorna status 409 (Conflito) e uma mensagem informando qual campo único já existe
       return res.status(409).json({ message: `Campo único já existe: ${error.meta.target}` });
     }
 
-    
-    // e a mensagem de erro para ajudar na depuração
+    // Erro genérico
     return res.status(500).json({ message: error.message });
   }
 };
 
+// ✅ CORREÇÃO PRINCIPAL: getAllAtendimento agora aceita filtro
 export const getAllAtendimento = async (req: Request, res: Response) => {
   try {
-    const atendimento = await atendimentoServices.getAll();
+    // 1. Tenta ler o clienteId dos parâmetros de consulta da URL (ex: ?clienteId=123)
+    const clienteIdQuery = req.query.clienteId as string;
+    let clienteId: number | undefined;
+
+    // 2. Se existir e for um número válido, converte
+    if (clienteIdQuery && !isNaN(Number(clienteIdQuery))) {
+      clienteId = Number(clienteIdQuery);
+    }
+
+    // 3. Passa o ID (ou undefined) para o serviço
+    const atendimento = await atendimentoServices.getAll(clienteId);
+    
     return res.json(atendimento);
   } catch (error: any) {
     return res.status(500).json({ message: error.message });

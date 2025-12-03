@@ -21,7 +21,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 
-// ✅ NECESSÁRIO: Criar/modificar uma tabela de visualização simples para o cliente
 import AtendimentosTable from "../components/atendimentos/AtendimentosTableCliente"; 
 import { useDebounce } from "../hooks/useDebounce";
 import { useAuth } from "../context/AuthContext"; // 
@@ -47,9 +46,7 @@ const AtendimentosClientePage = () => {
 
   const debouncedTermo = useDebounce(searchTerm, 300);
 
-  // -----------------------------------------------------------
-  // 🔑 LÓGICA DE CARREGAMENTO DE DADOS ESPECÍFICA DO CLIENTE
-  // -----------------------------------------------------------
+
   useEffect(() => {
     // ⚠️ Proteção: só carrega se o userId for válido e o role for 'cliente'
     if (!userId || userRole !== 'cliente') {
@@ -59,7 +56,7 @@ const AtendimentosClientePage = () => {
     
     const carregar = async () => {
       try {
-        // ✅ CHAMA O SERVIÇO, PASSANDO O ID DO CLIENTE PARA FILTRO
+       
         const data = await getAtendimentos(userId); 
         setAtendimentos(data);
       } catch (err) {
@@ -75,9 +72,6 @@ const AtendimentosClientePage = () => {
     carregar();
   }, [userId, userRole, navigate]); // Dependências do useAuth
 
-  // -----------------------------------------------------------
-  // LÓGICA DE FILTRAGEM (MANTIDA)
-  // -----------------------------------------------------------
   const atendimentosFiltrados = useMemo(() => {
     if (!debouncedTermo) return atendimentos;
 
