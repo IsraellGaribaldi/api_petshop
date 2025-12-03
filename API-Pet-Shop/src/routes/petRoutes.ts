@@ -7,15 +7,15 @@ import {
   getPetById,
   updatePet,
   deletePet,
-} from "../controller/petController";
+} from "../controller/petController.ts";
 // Importa os middlewares de validação, que garantem que os dados da requisição estão no formato correto.
-import { validateBody, validateParams } from "../middlewares/validation";
+import { validateBody, validateParams } from "../middlewares/validation.ts";
 // Importa os schemas de validação do Zod, que definem a estrutura dos dados da requisição.
 import {
   createPetSchema,
   updatePetSchema,
   idParamSchema,
-} from "../schemas/validation";
+} from "../schemas/validation.ts";
 
 // Cria uma nova instância do Router.
 const router = Router();

@@ -8,7 +8,7 @@ import {
   getAtendimentoById,
   updateAtendimento,
   deleteAtendimento,
-} from "../controller/atendimentosController";
+} from "../controller/atendimentosController.ts";
 // Importa os middlewares de validação, que garantem que os dados da requisição estão no formato correto.
 import { validateBody, validateParams } from "../middlewares/validation";
 // Importa os schemas de validação do Zod, que definem a estrutura dos dados da requisição.

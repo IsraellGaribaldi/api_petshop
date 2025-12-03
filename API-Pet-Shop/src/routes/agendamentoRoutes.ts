@@ -5,7 +5,7 @@ import { prisma } from '../db/prisma/prisma'; // 👈 Keep this import
 // REMOVA: const router = Router();
 // REMOVA: const prisma = new PrismaClient(); // 👈 REMOVE this line (Redeclaration)
 
-import { autenticarToken, apenasFuncionarios } from "../middlewares/authMiddleware";
+import { autenticarToken, apenasFuncionarios } from "../middlewares/authMiddleware.ts";
 
 const router = Router(); // Keep the router declaration
 
