@@ -180,7 +180,7 @@ const Login: React.FC = () => {
               Não tem uma conta? Cadastre-se{" "}
               <MuiLink
                 component={RouterLink}
-                to="/register"
+                to="/register/cliente"
                 style={{
                   textDecoration: "none",
                   color: "blue",
