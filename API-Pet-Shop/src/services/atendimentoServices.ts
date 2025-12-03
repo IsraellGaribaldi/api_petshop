@@ -1,5 +1,5 @@
 // Importa a instância do PrismaClient para interagir com o banco de dados.
-import prisma from '../db/prisma/prisma';
+import { prisma } from '../db/prisma/prisma';
 // Importa o tipo Atendimento gerado pelo Prisma.
 import { Atendimento } from '../generated/prisma';
 

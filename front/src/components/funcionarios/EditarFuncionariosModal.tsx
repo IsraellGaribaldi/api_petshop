@@ -26,16 +26,7 @@ export const EditarFuncionarioModal = ({
   onFuncionarioUpdated,
 }: EditarFuncionarioModalProps) => {
 
-  const [formData, setFormData] = useState<Funcionario>({
-    id: 0,
-    nome: "",
-    cargo: "",
-    salario: 0,
-    telefone: "",
-    email: "",
-    data_admissao: "",
-  });
-
+  const [formData, setFormData] = useState<Funcionario | null>(null);
   const [salvando, setSalvando] = useState(false);
 
   // Atualiza quando abre o modal
@@ -45,20 +36,22 @@ export const EditarFuncionarioModal = ({
     }
   }, [funcionario, open]);
 
-  // Mudança nos inputs
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    if (!formData) return;
+
     const { name, value } = e.target;
-    
-    setFormData((prev: any) => ({
-      ...prev,
-      [name]: name === "salario" ? Number(value) : value,
+
+    setFormData((prev) => ({
+      ...prev!,
+      [name]: value,
     }));
   };
 
-  // Salvar
   const handleSave = async () => {
+    if (!formData) return;
+
     setSalvando(true);
     try {
       const updated = await FuncionarioService.update(formData.id, formData);
@@ -72,7 +65,8 @@ export const EditarFuncionarioModal = ({
     }
   };
 
-  if (!funcionario) return null;
+  // Se ainda não carregou os dados, não renderiza o formulário
+  if (!formData) return null;
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
@@ -86,23 +80,6 @@ export const EditarFuncionarioModal = ({
             name="nome"
             fullWidth
             value={formData.nome}
-            onChange={handleInputChange}
-          />
-
-          <TextField
-            label="Cargo"
-            name="cargo"
-            fullWidth
-            value={formData.cargo}
-            onChange={handleInputChange}
-          />
-
-          <TextField
-            label="Salário"
-            name="salario"
-            fullWidth
-            type="number"
-            value={formData.salario}
             onChange={handleInputChange}
           />
 
@@ -123,13 +100,11 @@ export const EditarFuncionarioModal = ({
           />
 
           <TextField
-            label="Data de Admissão"
-            name="data_admissao"
-            type="date"
+            label="Endereço"
+            name="endereco"
             fullWidth
-            value={formData.data_admissao}
+            value={formData.endereco}
             onChange={handleInputChange}
-            InputLabelProps={{ shrink: true }}
           />
 
         </Box>

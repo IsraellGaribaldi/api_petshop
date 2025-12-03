@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+//tabela de pets 
+model Pet {
+  id           Int           @id @default(autoincrement())
+  nome         String
+  especie      String
+  raca         String?
+  sexo         String
+  idade        Int
+  idcliente    Int
+  atendimentos Atendimento[]
+  agendamentos Agendamento[]
+  cliente      Cliente       @relation(fields: [idcliente], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("pets")
+}
+
+// tabela dos clientes 
+model Cliente {
+  id           Int           @id @default(autoincrement())
+  nome         String
+  telefone     String
+  email        String
+  senha        String
+  endereco     String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  solicitacoes Solicitacao[]
+  agendamentos Agendamento[]
+  pets         Pet[] // relação 1 cliente pode ter mais de um pet
+
+  @@map("clientes")
+}
+
+model Funcionario {
+  id           Int           @id @default(autoincrement())
+  nome         String
+  telefone     String
+  email        String
+  senha        String
+  endereco     String
+  atendimentos Atendimento[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("funcionarios")
+}
+
+model Atendimento {
+  id            Int      @id @default(autoincrement())
+  tipo          String
+  idpet         Int
+  idfuncionario Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  pet         Pet         @relation(fields: [idpet], references: [id])
+  funcionario Funcionario @relation(fields: [idfuncionario], references: [id])
+
+  @@map("atendimentos")
+}
+
+model Solicitacao {
+  id        Int      @id @default(autoincrement())
+  descricao String
+  status    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  clienteId Int
+  cliente   Cliente  @relation(fields: [clienteId], references: [id])
+
+  @@map("solicitacao")
+}
+
+model Agendamento {
+  id      Int      @id @default(autoincrement())
+  data    DateTime
+  servico String
+
+  clienteId Int
+  petId     Int
+
+  cliente Cliente @relation(fields: [clienteId], references: [id])
+  pet     Pet     @relation(fields: [petId], references: [id])
+}
