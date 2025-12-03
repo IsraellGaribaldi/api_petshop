@@ -1,24 +1,24 @@
-// src/db/prisma/prisma.ts (VERSÃO CORRIGIDA E SIMPLIFICADA)
+// 📄 src/db/prisma/prisma.ts (Versão Corrigida Final e à Prova de Falhas CJS/ESM)
 
-// 1. Importação Padrão do Prisma Client
-// Tente SEMPRE usar o caminho padrão primeiro, pois ele é o mais estável.
-import { PrismaClient } from '@prisma/client'; 
+// 1. SOLUÇÃO FINAL: Importa o módulo inteiro como um namespace.
+// Isso evita o 'SyntaxError: The requested module ... does not provide an export named...'
+import * as PrismaModule from '@prisma/client'; 
 
-// 2. Comentamos o Pool e o Adapter para ISOLAR o erro.
-// import { Pool } from 'pg'; 
-// import { PrismaPg as PostgreSQLAdapter } from '@prisma/adapter-pg'; 
-
+// 2. Acessa o construtor PrismaClient.
+// O construtor PrismaClient pode estar em 'PrismaModule.PrismaClient' ou, 
+// em alguns ambientes ES Modules/CJS híbridos, em '(PrismaModule as any).default.PrismaClient'.
+// Usamos a forma mais robusta que o TS e o Node suportam.
+const PrismaClient = PrismaModule.PrismaClient; // Acessamos a exportação nomeada
 
 // 3. Verificação de URL
 const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
-  throw new Error("A variável de ambiente DATABASE_URL não está definida. Verifique seu arquivo .env.");
+ throw new Error("A variável de ambiente DATABASE_URL não está definida. Verifique seu arquivo .env.");
 }
 
-// 4. Instanciação SIMPLES do Prisma (Sem Adapter)
-// Usando a conexão padrão via DATABASE_URL
-const prisma = new PrismaClient(); 
+// 4. Instanciação SIMPLES do Prisma 
+const prisma = new PrismaClient(); // Usa o construtor do namespace
 
 // Exportação
 export { prisma };
