@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/index.js",
+    "start": "node src/index.js",
     "prisma:generate": "prisma generate",
     "seed:deploy": "node ./dist/prisma/seed.js",
     "dev": "node --import tsx --import dotenv/config src/index.ts"
