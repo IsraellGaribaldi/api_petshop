@@ -1,6 +1,7 @@
 {
   "name": "api1",
   "version": "1.0.0",
+  "type": "module",
   "description": "A simple postgres starter for Project IDX.",
   "main": "index.js",
   "scripts": {
