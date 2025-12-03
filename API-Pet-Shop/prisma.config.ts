@@ -1,11 +1,13 @@
 // prisma.config.ts
-import { defineConfig } from 'prisma/config'
+// Use require para carregar e executar o método config() do dotenv
+require('dotenv').config(); 
+
+import { defineConfig } from '@prisma/config';
 
 export default defineConfig({
-  // A URL de conexão da database principal vai diretamente aqui.
-  datasource: {
-    url: process.env.DATABASE_URL!,
-    // Se você usa shadow database para migrações:
-    // shadowDatabaseUrl: process.env.SHADOW_DATABASE_URL, 
-  },
-})
+    schema: './prisma/schema.prisma',
+    
+    datasource: {
+        url: process.env.DATABASE_URL!, 
+    },
+});
