@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-import atendimentoRoutes from "./atendimentoRoutes";
-import clienteRoutes from "./clienteRoutes";
-import funcionarioRoutes from "./funcionarioRoutes";
-import loginRoutes from "./loginRoutes";
-import petRoutes from "./petRoutes";
+import atendimentoRoutes from "./atendimentoRoutes.ts";
+import clienteRoutes from "./clienteRoutes.ts";
+import funcionarioRoutes from "./funcionarioRoutes.ts";
+import loginRoutes from "./loginRoutes.ts";
+import petRoutes from "./petRoutes.ts";
 
 const router = Router();
 

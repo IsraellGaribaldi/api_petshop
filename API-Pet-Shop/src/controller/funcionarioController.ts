@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 
 // Importa todas as funções do serviço de funcionários (create, getAll, getById, update, remove)
-import * as funcionarioService from '../services/funcionarioServices';
+import * as funcionarioService from '../services/funcionarioServices.ts';
 
 
 export const createFuncionario = async (req: Request, res: Response) => {

@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 
 // Importa todas as funções do módulo 'atendimentoServices' e as agrupa no objeto 'atendimentoService'
-import * as atendimentoServices from '../services/atendimentoServices';
+import * as atendimentoServices from '../services/atendimentoServices.ts';
 
 // Exporta a função 'atendimento' (usada como controlador de rota no Express)
 export const atendimento = async (req: Request, res: Response) => {
