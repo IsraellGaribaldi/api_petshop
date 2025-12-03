@@ -10,10 +10,12 @@
     "allowImportingTsExtensions": true,
     "noEmit": true, 
     "baseUrl": ".", 
+    // Corrigido: O paths não pode conter a seção scripts.
     "paths": {
+      // Ajuste ou remova esta linha se você não a estiver usando para um alias:
       "@prisma/client": ["./node_modules/@prisma/client"]
+    }
   },
-},
   "ts-node": {
     "esm": true
   },

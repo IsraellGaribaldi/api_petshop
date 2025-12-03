@@ -1,9 +1,12 @@
-// 📄 services/swagger.ts
+// 📄 services/swagger.ts (Versão Corrigida Final)
 
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-// Importa o tipo correto da aplicação Express, que é 'Application'
-import { Application } from "express"; 
+// REMOVIDO: import express from "express"; (Não precisamos do valor aqui)
+
+// CORREÇÃO: Usamos 'type' para garantir que esta importação seja ignorada pelo Node.js runtime,
+// resolvendo o SyntaxError.
+import { type Application } from "express"; 
 
 
 const options = {
@@ -15,9 +18,9 @@ const options = {
  description: "API para gerenciar um petshop, incluindo clientes, pets, funcionários e atendimentos",
  },
    servers: [
-   {
-     url: "http://localhost:3333",
-   },
+ {
+    url: "http://localhost:3333",
+ },
   ],
  },
 
@@ -32,7 +35,7 @@ const swaggerSpec = swaggerJsdoc(options);
 /**
  * Configura o Swagger na aplicação
  */
-// CORRIGIDO: O tipo da aplicação Express é 'Application', não 'Express'.
+// O objeto 'app' é tipado como Application
 export const setupSwagger = (app: Application) => {
  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };

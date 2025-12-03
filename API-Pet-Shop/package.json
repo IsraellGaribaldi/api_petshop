@@ -1,22 +1,32 @@
 {
-  "compilerOptions": {
-    
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    
-    
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    
- 
-    "rootDir": "./src",
-    "outDir": "./dist",
-    
-    
-    "strict": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true
+  "name": "api-petshop",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "API para Petshop",
+  "main": "dist/index.js",
+  
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node --esm -r dotenv/config src/index.ts" 
+   
   },
-  "include": ["src/**/*"]
+  
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  
+  "dependencies": {
+    "@prisma/client": "^7.0.1",
+    "express": "^5.1.0",
+    "dotenv": "^17.2.3"
+    
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "@types/node": "^24.10.1",
+    "@types/express": "^5.0.5"
+    
+  }
 }
