@@ -1,39 +1,48 @@
-// Importa a instância do PrismaClient para interagir com o banco de dados.
-import { prisma } from '../db/prisma/prisma.ts';
-// Importa o tipo Atendimento gerado pelo Prisma.
-import { Atendimento } from '../generated/prisma';
+// src/services/atendimentoServices.ts
 
-// Define o tipo para a criação de um novo atendimento. Omitimos 'id', 'createdAt' e 'updatedAt' porque são gerenciados pelo banco de dados.
-type AtendimentoCreateData = Omit<Atendimento, 'id' | 'createdAt' | 'updatedAt'>;
-// Define o tipo para a atualização de um atendimento. Partial torna todos os campos de AtendimentoCreateData opcionais.
-type AtendimentoUpdateData = Partial<AtendimentoCreateData>;
+// Importa a instância do PrismaClient.
+import { prisma } from '../db/prisma/prisma.ts';
+// Remova a importação do tipo Atendimento (pois ela estava falhando).
+// import { type Atendimento } from '@prisma/client'; 
+
+type AtendimentoModel = typeof prisma.atendimento;
+type AtendimentoType = Awaited<ReturnType<AtendimentoModel['findFirst']>>; // Inferir o tipo do modelo Atendimento
+
+
+// Define o tipo para a criação de um novo atendimento.
+// Usamos a sintaxe do Prisma para pegar o tipo exato de dados de criação.
+type AtendimentoCreateData = Parameters<AtendimentoModel['create']>[0]['data'];
+// Define o tipo para a atualização de um atendimento.
+type AtendimentoUpdateData = Parameters<AtendimentoModel['update']>[0]['data'];
+
 
 // Função para criar um novo atendimento no banco de dados.
-export const create = async (data: AtendimentoCreateData): Promise<Atendimento> => {
-  return prisma.atendimento.create({
-    data,
-  });
+// Usando 'AtendimentoType' como tipo de retorno (ou ajuste para a exportação real do Prisma)
+export const create = async (data: AtendimentoCreateData): Promise<AtendimentoType> => {
+ return prisma.atendimento.create({
+  data,
+ });
 };
 
 // Função para buscar todos os atendimentos no banco de dados.
-export const getAll = async (): Promise<Atendimento[]> => {
-  return prisma.atendimento.findMany();
+export const getAll = async (): Promise<AtendimentoType[]> => {
+ return prisma.atendimento.findMany();
 };
 
 // Função para buscar um atendimento pelo ID no banco de dados.
-export const getById = async (id: number): Promise<Atendimento | null> => {
-  return prisma.atendimento.findUnique({ where: { id } });
+export const getById = async (id: number): Promise<AtendimentoType | null> => {
+ return prisma.atendimento.findUnique({ where: { id } });
 };
 
 // Função para atualizar um atendimento no banco de dados.
-export const update = async (id: number, data: AtendimentoUpdateData): Promise<Atendimento> => {
-  return prisma.atendimento.update({
-    where: { id },
-    data,
-  });
+export const update = async (id: number, data: AtendimentoUpdateData): Promise<AtendimentoType> => {
+ return prisma.atendimento.update({
+ where: { id },
+ data,
+ });
 };
 
 // Função para remover um atendimento do banco de dados.
-export const remove = async (id: number): Promise<Atendimento> => {
-  return prisma.atendimento.delete({ where: { id } });
+export const remove = async (id: number): Promise<AtendimentoType> => {
+ return prisma.atendimento.delete({ where: { id } });
 };
