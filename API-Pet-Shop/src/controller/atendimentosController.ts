@@ -1,5 +1,5 @@
 // Importa os tipos Request e Response do Express, usados para tipar os parâmetros das funções de rota
-import { Request, Response } from 'express';
+import { type Request, type Response, type NextFunction } from "express";
 
 // Importa todas as funções do módulo 'atendimentoServices' e as agrupa no objeto 'atendimentoService'
 import * as atendimentoServices from '../services/atendimentoServices.ts';
