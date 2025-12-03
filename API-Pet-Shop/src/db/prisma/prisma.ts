@@ -27,3 +27,4 @@ const adapter = new PostgreSQLAdapter(pool);
 
 // 4. Instanciação do Prisma Client com o Adapter
 export const prisma = new PrismaClient({ adapter });
+export default prisma;
