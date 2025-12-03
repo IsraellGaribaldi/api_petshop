@@ -48,7 +48,7 @@ model Funcionario {
   telefone     String
   email        String
   senha        String
-  endereço    String
+  endereco     String
   atendimentos Atendimento[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt

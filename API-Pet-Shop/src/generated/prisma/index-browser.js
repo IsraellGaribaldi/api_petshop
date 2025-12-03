@@ -149,7 +149,7 @@ exports.Prisma.FuncionarioScalarFieldEnum = {
   telefone: 'telefone',
   email: 'email',
   senha: 'senha',
-  endereço: 'endereço',
+  endereco: 'endereco',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

@@ -3855,7 +3855,7 @@ export namespace Prisma {
     telefone: string | null
     email: string | null
     senha: string | null
-    endereço: string | null
+    endereco: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3866,7 +3866,7 @@ export namespace Prisma {
     telefone: string | null
     email: string | null
     senha: string | null
-    endereço: string | null
+    endereco: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3877,7 +3877,7 @@ export namespace Prisma {
     telefone: number
     email: number
     senha: number
-    endereço: number
+    endereco: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3898,7 +3898,7 @@ export namespace Prisma {
     telefone?: true
     email?: true
     senha?: true
-    endereço?: true
+    endereco?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3909,7 +3909,7 @@ export namespace Prisma {
     telefone?: true
     email?: true
     senha?: true
-    endereço?: true
+    endereco?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3920,7 +3920,7 @@ export namespace Prisma {
     telefone?: true
     email?: true
     senha?: true
-    endereço?: true
+    endereco?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4018,7 +4018,7 @@ export namespace Prisma {
     telefone: string
     email: string
     senha: string
-    endereço: string
+    endereco: string
     createdAt: Date
     updatedAt: Date
     _count: FuncionarioCountAggregateOutputType | null
@@ -4048,7 +4048,7 @@ export namespace Prisma {
     telefone?: boolean
     email?: boolean
     senha?: boolean
-    endereço?: boolean
+    endereco?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     atendimentos?: boolean | Funcionario$atendimentosArgs<ExtArgs>
@@ -4061,7 +4061,7 @@ export namespace Prisma {
     telefone?: boolean
     email?: boolean
     senha?: boolean
-    endereço?: boolean
+    endereco?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["funcionario"]>
@@ -4072,7 +4072,7 @@ export namespace Prisma {
     telefone?: boolean
     email?: boolean
     senha?: boolean
-    endereço?: boolean
+    endereco?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["funcionario"]>
@@ -4083,12 +4083,12 @@ export namespace Prisma {
     telefone?: boolean
     email?: boolean
     senha?: boolean
-    endereço?: boolean
+    endereco?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type FuncionarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "telefone" | "email" | "senha" | "endereço" | "createdAt" | "updatedAt", ExtArgs["result"]["funcionario"]>
+  export type FuncionarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "telefone" | "email" | "senha" | "endereco" | "createdAt" | "updatedAt", ExtArgs["result"]["funcionario"]>
   export type FuncionarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     atendimentos?: boolean | Funcionario$atendimentosArgs<ExtArgs>
     _count?: boolean | FuncionarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -4107,7 +4107,7 @@ export namespace Prisma {
       telefone: string
       email: string
       senha: string
-      endereço: string
+      endereco: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["funcionario"]>
@@ -4539,7 +4539,7 @@ export namespace Prisma {
     readonly telefone: FieldRef<"Funcionario", 'String'>
     readonly email: FieldRef<"Funcionario", 'String'>
     readonly senha: FieldRef<"Funcionario", 'String'>
-    readonly endereço: FieldRef<"Funcionario", 'String'>
+    readonly endereco: FieldRef<"Funcionario", 'String'>
     readonly createdAt: FieldRef<"Funcionario", 'DateTime'>
     readonly updatedAt: FieldRef<"Funcionario", 'DateTime'>
   }
@@ -8359,7 +8359,7 @@ export namespace Prisma {
     telefone: 'telefone',
     email: 'email',
     senha: 'senha',
-    endereço: 'endereço',
+    endereco: 'endereco',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -8660,7 +8660,7 @@ export namespace Prisma {
     telefone?: StringFilter<"Funcionario"> | string
     email?: StringFilter<"Funcionario"> | string
     senha?: StringFilter<"Funcionario"> | string
-    endereço?: StringFilter<"Funcionario"> | string
+    endereco?: StringFilter<"Funcionario"> | string
     createdAt?: DateTimeFilter<"Funcionario"> | Date | string
     updatedAt?: DateTimeFilter<"Funcionario"> | Date | string
     atendimentos?: AtendimentoListRelationFilter
@@ -8672,7 +8672,7 @@ export namespace Prisma {
     telefone?: SortOrder
     email?: SortOrder
     senha?: SortOrder
-    endereço?: SortOrder
+    endereco?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     atendimentos?: AtendimentoOrderByRelationAggregateInput
@@ -8687,7 +8687,7 @@ export namespace Prisma {
     telefone?: StringFilter<"Funcionario"> | string
     email?: StringFilter<"Funcionario"> | string
     senha?: StringFilter<"Funcionario"> | string
-    endereço?: StringFilter<"Funcionario"> | string
+    endereco?: StringFilter<"Funcionario"> | string
     createdAt?: DateTimeFilter<"Funcionario"> | Date | string
     updatedAt?: DateTimeFilter<"Funcionario"> | Date | string
     atendimentos?: AtendimentoListRelationFilter
@@ -8699,7 +8699,7 @@ export namespace Prisma {
     telefone?: SortOrder
     email?: SortOrder
     senha?: SortOrder
-    endereço?: SortOrder
+    endereco?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: FuncionarioCountOrderByAggregateInput
@@ -8718,7 +8718,7 @@ export namespace Prisma {
     telefone?: StringWithAggregatesFilter<"Funcionario"> | string
     email?: StringWithAggregatesFilter<"Funcionario"> | string
     senha?: StringWithAggregatesFilter<"Funcionario"> | string
-    endereço?: StringWithAggregatesFilter<"Funcionario"> | string
+    endereco?: StringWithAggregatesFilter<"Funcionario"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Funcionario"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Funcionario"> | Date | string
   }
@@ -9089,7 +9089,7 @@ export namespace Prisma {
     telefone: string
     email: string
     senha: string
-    endereço: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
     atendimentos?: AtendimentoCreateNestedManyWithoutFuncionarioInput
@@ -9101,7 +9101,7 @@ export namespace Prisma {
     telefone: string
     email: string
     senha: string
-    endereço: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
     atendimentos?: AtendimentoUncheckedCreateNestedManyWithoutFuncionarioInput
@@ -9112,7 +9112,7 @@ export namespace Prisma {
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     senha?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     atendimentos?: AtendimentoUpdateManyWithoutFuncionarioNestedInput
@@ -9124,7 +9124,7 @@ export namespace Prisma {
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     senha?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     atendimentos?: AtendimentoUncheckedUpdateManyWithoutFuncionarioNestedInput
@@ -9136,7 +9136,7 @@ export namespace Prisma {
     telefone: string
     email: string
     senha: string
-    endereço: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9146,7 +9146,7 @@ export namespace Prisma {
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     senha?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9157,7 +9157,7 @@ export namespace Prisma {
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     senha?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9593,7 +9593,7 @@ export namespace Prisma {
     telefone?: SortOrder
     email?: SortOrder
     senha?: SortOrder
-    endereço?: SortOrder
+    endereco?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9608,7 +9608,7 @@ export namespace Prisma {
     telefone?: SortOrder
     email?: SortOrder
     senha?: SortOrder
-    endereço?: SortOrder
+    endereco?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9619,7 +9619,7 @@ export namespace Prisma {
     telefone?: SortOrder
     email?: SortOrder
     senha?: SortOrder
-    endereço?: SortOrder
+    endereco?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10645,7 +10645,7 @@ export namespace Prisma {
     telefone: string
     email: string
     senha: string
-    endereço: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10656,7 +10656,7 @@ export namespace Prisma {
     telefone: string
     email: string
     senha: string
-    endereço: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10718,7 +10718,7 @@ export namespace Prisma {
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     senha?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10729,7 +10729,7 @@ export namespace Prisma {
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     senha?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
