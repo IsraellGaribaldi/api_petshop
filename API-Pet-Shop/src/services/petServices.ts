@@ -1,39 +1,40 @@
-// Importa a instância do PrismaClient para interagir com o banco de dados.
-import  prisma  from '../db/prisma/prisma';
-// Importa o tipo Pet gerado pelo Prisma.
-import { Pet } from '../generated/prisma';
+// src/services/petServices.ts
 
-// Define o tipo para a criação de um novo pet. Omitimos 'id', 'createdAt' e 'updatedAt' porque são gerenciados pelo banco de dados.
-type PetCreateData = Omit<Pet, 'id' | 'createdAt' | 'updatedAt'>;
-// Define o tipo para a atualização de um pet. Partial torna todos os campos de PetCreateData opcionais.
-type PetUpdateData = Partial<PetCreateData>;
+// 1. CORRIGIDO: Importação nomeada { prisma } E a extensão .ts
+import { prisma } from '../db/prisma/prisma.ts';
+
+// 2. CORRIGIDO: Inferência de Tipos. Removemos a importação de Pet de '../generated/prisma'.
+type PetModel = typeof prisma.pet;
+type PetType = Awaited<ReturnType<PetModel['findFirst']>>; 
+type PetCreateData = Parameters<PetModel['create']>[0]['data'];
+type PetUpdateData = Parameters<PetModel['update']>[0]['data'];
 
 // Função para criar um novo pet no banco de dados.
-export const create = async (data: PetCreateData): Promise<Pet> => {
-  return prisma.pet.create({
-    data,
+export const create = async (data: PetCreateData): Promise<PetType> => {
+ return prisma.pet.create({
+  data,
   });
 };
 
 // Função para buscar todos os pets no banco de dados.
-export const getAll = async (): Promise<Pet[]> => {
+export const getAll = async (): Promise<PetType[]> => {
   return prisma.pet.findMany();
 };
 
 // Função para buscar um pet pelo ID no banco de dados.
-export const getById = async (id: number): Promise<Pet | null> => {
+export const getById = async (id: number): Promise<PetType | null> => {
   return prisma.pet.findUnique({ where: { id } });
 };
 
 // Função para atualizar um pet no banco de dados.
-export const update = async (id: number, data: PetUpdateData): Promise<Pet> => {
-  return prisma.pet.update({
-    where: { id },
-    data,
-  });
+export const update = async (id: number, data: PetUpdateData): Promise<PetType> => {
+ return prisma.pet.update({
+  where: { id },
+  data,
+ });
 };
 
 // Função para remover um pet do banco de dados.
-export const remove = async (id: number): Promise<Pet> => {
-  return prisma.pet.delete({ where: { id } });
+export const remove = async (id: number): Promise<PetType> => {
+ return prisma.pet.delete({ where: { id } });
 };
