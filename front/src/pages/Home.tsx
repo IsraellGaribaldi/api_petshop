@@ -39,7 +39,7 @@ const Home: React.FC = () => {
               fullWidth
               sx={{ mb: 2 }}
               type="button"
-              onClick={() => navigate("/clientes")}
+              onClick={() => navigate("/login")}
             >
               Clientes
             </Button>
