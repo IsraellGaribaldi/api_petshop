@@ -35,6 +35,6 @@ app.get("/", (req, res) => {
 // Inicia servidor
 const PORT = 3333;
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando em ${BASE_URL}`);
-  console.log(`📘 Swagger disponível em ${BASE_URL}`);
+  console.log(`🚀 Servidor rodando em https://api-petshop-5qe7.onrender.com/`);
+  console.log(`📘 Swagger disponível em https://api-petshop-5qe7.onrender.com/`);
 });
