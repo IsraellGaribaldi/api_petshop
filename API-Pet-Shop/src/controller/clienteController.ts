@@ -1,5 +1,5 @@
 // Importa os tipos Request e Response do Express para tipar as funções dos controladores
-import { Request, Response } from 'express';
+import { type Request, type Response } from 'express';
 
 // Importa todas as funções do serviço de cliente (create, getAll, getById, update, remove)
 import * as clienteService from '../services/clienteServices.ts';
