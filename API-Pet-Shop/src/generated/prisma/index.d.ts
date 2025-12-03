@@ -1448,7 +1448,7 @@ export namespace Prisma {
     id: number | null
     nome: string | null
     especie: string | null
-    raça: string | null
+    raca: string | null
     sexo: string | null
     idade: number | null
     idcliente: number | null
@@ -1460,7 +1460,7 @@ export namespace Prisma {
     id: number | null
     nome: string | null
     especie: string | null
-    raça: string | null
+    raca: string | null
     sexo: string | null
     idade: number | null
     idcliente: number | null
@@ -1472,7 +1472,7 @@ export namespace Prisma {
     id: number
     nome: number
     especie: number
-    raça: number
+    raca: number
     sexo: number
     idade: number
     idcliente: number
@@ -1498,7 +1498,7 @@ export namespace Prisma {
     id?: true
     nome?: true
     especie?: true
-    raça?: true
+    raca?: true
     sexo?: true
     idade?: true
     idcliente?: true
@@ -1510,7 +1510,7 @@ export namespace Prisma {
     id?: true
     nome?: true
     especie?: true
-    raça?: true
+    raca?: true
     sexo?: true
     idade?: true
     idcliente?: true
@@ -1522,7 +1522,7 @@ export namespace Prisma {
     id?: true
     nome?: true
     especie?: true
-    raça?: true
+    raca?: true
     sexo?: true
     idade?: true
     idcliente?: true
@@ -1621,7 +1621,7 @@ export namespace Prisma {
     id: number
     nome: string
     especie: string
-    raça: string | null
+    raca: string | null
     sexo: string
     idade: number
     idcliente: number
@@ -1652,7 +1652,7 @@ export namespace Prisma {
     id?: boolean
     nome?: boolean
     especie?: boolean
-    raça?: boolean
+    raca?: boolean
     sexo?: boolean
     idade?: boolean
     idcliente?: boolean
@@ -1668,7 +1668,7 @@ export namespace Prisma {
     id?: boolean
     nome?: boolean
     especie?: boolean
-    raça?: boolean
+    raca?: boolean
     sexo?: boolean
     idade?: boolean
     idcliente?: boolean
@@ -1681,7 +1681,7 @@ export namespace Prisma {
     id?: boolean
     nome?: boolean
     especie?: boolean
-    raça?: boolean
+    raca?: boolean
     sexo?: boolean
     idade?: boolean
     idcliente?: boolean
@@ -1694,7 +1694,7 @@ export namespace Prisma {
     id?: boolean
     nome?: boolean
     especie?: boolean
-    raça?: boolean
+    raca?: boolean
     sexo?: boolean
     idade?: boolean
     idcliente?: boolean
@@ -1702,7 +1702,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type PetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "especie" | "raça" | "sexo" | "idade" | "idcliente" | "createdAt" | "updatedAt", ExtArgs["result"]["pet"]>
+  export type PetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "especie" | "raca" | "sexo" | "idade" | "idcliente" | "createdAt" | "updatedAt", ExtArgs["result"]["pet"]>
   export type PetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     atendimentos?: boolean | Pet$atendimentosArgs<ExtArgs>
     agendamentos?: boolean | Pet$agendamentosArgs<ExtArgs>
@@ -1727,7 +1727,7 @@ export namespace Prisma {
       id: number
       nome: string
       especie: string
-      raça: string | null
+      raca: string | null
       sexo: string
       idade: number
       idcliente: number
@@ -2162,7 +2162,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Pet", 'Int'>
     readonly nome: FieldRef<"Pet", 'String'>
     readonly especie: FieldRef<"Pet", 'String'>
-    readonly raça: FieldRef<"Pet", 'String'>
+    readonly raca: FieldRef<"Pet", 'String'>
     readonly sexo: FieldRef<"Pet", 'String'>
     readonly idade: FieldRef<"Pet", 'Int'>
     readonly idcliente: FieldRef<"Pet", 'Int'>
@@ -2655,7 +2655,8 @@ export namespace Prisma {
     nome: string | null
     telefone: string | null
     email: string | null
-    endereço: string | null
+    senha: string | null
+    endereco: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2665,7 +2666,8 @@ export namespace Prisma {
     nome: string | null
     telefone: string | null
     email: string | null
-    endereço: string | null
+    senha: string | null
+    endereco: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2675,7 +2677,8 @@ export namespace Prisma {
     nome: number
     telefone: number
     email: number
-    endereço: number
+    senha: number
+    endereco: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2695,7 +2698,8 @@ export namespace Prisma {
     nome?: true
     telefone?: true
     email?: true
-    endereço?: true
+    senha?: true
+    endereco?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2705,7 +2709,8 @@ export namespace Prisma {
     nome?: true
     telefone?: true
     email?: true
-    endereço?: true
+    senha?: true
+    endereco?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2715,7 +2720,8 @@ export namespace Prisma {
     nome?: true
     telefone?: true
     email?: true
-    endereço?: true
+    senha?: true
+    endereco?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2812,7 +2818,8 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
-    endereço: string
+    senha: string
+    endereco: string
     createdAt: Date
     updatedAt: Date
     _count: ClienteCountAggregateOutputType | null
@@ -2841,7 +2848,8 @@ export namespace Prisma {
     nome?: boolean
     telefone?: boolean
     email?: boolean
-    endereço?: boolean
+    senha?: boolean
+    endereco?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     solicitacoes?: boolean | Cliente$solicitacoesArgs<ExtArgs>
@@ -2855,7 +2863,8 @@ export namespace Prisma {
     nome?: boolean
     telefone?: boolean
     email?: boolean
-    endereço?: boolean
+    senha?: boolean
+    endereco?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["cliente"]>
@@ -2865,7 +2874,8 @@ export namespace Prisma {
     nome?: boolean
     telefone?: boolean
     email?: boolean
-    endereço?: boolean
+    senha?: boolean
+    endereco?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["cliente"]>
@@ -2875,12 +2885,13 @@ export namespace Prisma {
     nome?: boolean
     telefone?: boolean
     email?: boolean
-    endereço?: boolean
+    senha?: boolean
+    endereco?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ClienteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "telefone" | "email" | "endereço" | "createdAt" | "updatedAt", ExtArgs["result"]["cliente"]>
+  export type ClienteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "telefone" | "email" | "senha" | "endereco" | "createdAt" | "updatedAt", ExtArgs["result"]["cliente"]>
   export type ClienteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     solicitacoes?: boolean | Cliente$solicitacoesArgs<ExtArgs>
     agendamentos?: boolean | Cliente$agendamentosArgs<ExtArgs>
@@ -2902,7 +2913,8 @@ export namespace Prisma {
       nome: string
       telefone: string
       email: string
-      endereço: string
+      senha: string
+      endereco: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["cliente"]>
@@ -3335,7 +3347,8 @@ export namespace Prisma {
     readonly nome: FieldRef<"Cliente", 'String'>
     readonly telefone: FieldRef<"Cliente", 'String'>
     readonly email: FieldRef<"Cliente", 'String'>
-    readonly endereço: FieldRef<"Cliente", 'String'>
+    readonly senha: FieldRef<"Cliente", 'String'>
+    readonly endereco: FieldRef<"Cliente", 'String'>
     readonly createdAt: FieldRef<"Cliente", 'DateTime'>
     readonly updatedAt: FieldRef<"Cliente", 'DateTime'>
   }
@@ -3841,6 +3854,7 @@ export namespace Prisma {
     nome: string | null
     telefone: string | null
     email: string | null
+    senha: string | null
     endereço: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3851,6 +3865,7 @@ export namespace Prisma {
     nome: string | null
     telefone: string | null
     email: string | null
+    senha: string | null
     endereço: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3861,6 +3876,7 @@ export namespace Prisma {
     nome: number
     telefone: number
     email: number
+    senha: number
     endereço: number
     createdAt: number
     updatedAt: number
@@ -3881,6 +3897,7 @@ export namespace Prisma {
     nome?: true
     telefone?: true
     email?: true
+    senha?: true
     endereço?: true
     createdAt?: true
     updatedAt?: true
@@ -3891,6 +3908,7 @@ export namespace Prisma {
     nome?: true
     telefone?: true
     email?: true
+    senha?: true
     endereço?: true
     createdAt?: true
     updatedAt?: true
@@ -3901,6 +3919,7 @@ export namespace Prisma {
     nome?: true
     telefone?: true
     email?: true
+    senha?: true
     endereço?: true
     createdAt?: true
     updatedAt?: true
@@ -3998,6 +4017,7 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
+    senha: string
     endereço: string
     createdAt: Date
     updatedAt: Date
@@ -4027,6 +4047,7 @@ export namespace Prisma {
     nome?: boolean
     telefone?: boolean
     email?: boolean
+    senha?: boolean
     endereço?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -4039,6 +4060,7 @@ export namespace Prisma {
     nome?: boolean
     telefone?: boolean
     email?: boolean
+    senha?: boolean
     endereço?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -4049,6 +4071,7 @@ export namespace Prisma {
     nome?: boolean
     telefone?: boolean
     email?: boolean
+    senha?: boolean
     endereço?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -4059,12 +4082,13 @@ export namespace Prisma {
     nome?: boolean
     telefone?: boolean
     email?: boolean
+    senha?: boolean
     endereço?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type FuncionarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "telefone" | "email" | "endereço" | "createdAt" | "updatedAt", ExtArgs["result"]["funcionario"]>
+  export type FuncionarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "telefone" | "email" | "senha" | "endereço" | "createdAt" | "updatedAt", ExtArgs["result"]["funcionario"]>
   export type FuncionarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     atendimentos?: boolean | Funcionario$atendimentosArgs<ExtArgs>
     _count?: boolean | FuncionarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -4082,6 +4106,7 @@ export namespace Prisma {
       nome: string
       telefone: string
       email: string
+      senha: string
       endereço: string
       createdAt: Date
       updatedAt: Date
@@ -4513,6 +4538,7 @@ export namespace Prisma {
     readonly nome: FieldRef<"Funcionario", 'String'>
     readonly telefone: FieldRef<"Funcionario", 'String'>
     readonly email: FieldRef<"Funcionario", 'String'>
+    readonly senha: FieldRef<"Funcionario", 'String'>
     readonly endereço: FieldRef<"Funcionario", 'String'>
     readonly createdAt: FieldRef<"Funcionario", 'DateTime'>
     readonly updatedAt: FieldRef<"Funcionario", 'DateTime'>
@@ -8302,7 +8328,7 @@ export namespace Prisma {
     id: 'id',
     nome: 'nome',
     especie: 'especie',
-    raça: 'raça',
+    raca: 'raca',
     sexo: 'sexo',
     idade: 'idade',
     idcliente: 'idcliente',
@@ -8318,7 +8344,8 @@ export namespace Prisma {
     nome: 'nome',
     telefone: 'telefone',
     email: 'email',
-    endereço: 'endereço',
+    senha: 'senha',
+    endereco: 'endereco',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -8331,6 +8358,7 @@ export namespace Prisma {
     nome: 'nome',
     telefone: 'telefone',
     email: 'email',
+    senha: 'senha',
     endereço: 'endereço',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -8469,7 +8497,7 @@ export namespace Prisma {
     id?: IntFilter<"Pet"> | number
     nome?: StringFilter<"Pet"> | string
     especie?: StringFilter<"Pet"> | string
-    raça?: StringNullableFilter<"Pet"> | string | null
+    raca?: StringNullableFilter<"Pet"> | string | null
     sexo?: StringFilter<"Pet"> | string
     idade?: IntFilter<"Pet"> | number
     idcliente?: IntFilter<"Pet"> | number
@@ -8484,7 +8512,7 @@ export namespace Prisma {
     id?: SortOrder
     nome?: SortOrder
     especie?: SortOrder
-    raça?: SortOrderInput | SortOrder
+    raca?: SortOrderInput | SortOrder
     sexo?: SortOrder
     idade?: SortOrder
     idcliente?: SortOrder
@@ -8502,7 +8530,7 @@ export namespace Prisma {
     NOT?: PetWhereInput | PetWhereInput[]
     nome?: StringFilter<"Pet"> | string
     especie?: StringFilter<"Pet"> | string
-    raça?: StringNullableFilter<"Pet"> | string | null
+    raca?: StringNullableFilter<"Pet"> | string | null
     sexo?: StringFilter<"Pet"> | string
     idade?: IntFilter<"Pet"> | number
     idcliente?: IntFilter<"Pet"> | number
@@ -8517,7 +8545,7 @@ export namespace Prisma {
     id?: SortOrder
     nome?: SortOrder
     especie?: SortOrder
-    raça?: SortOrderInput | SortOrder
+    raca?: SortOrderInput | SortOrder
     sexo?: SortOrder
     idade?: SortOrder
     idcliente?: SortOrder
@@ -8537,7 +8565,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Pet"> | number
     nome?: StringWithAggregatesFilter<"Pet"> | string
     especie?: StringWithAggregatesFilter<"Pet"> | string
-    raça?: StringNullableWithAggregatesFilter<"Pet"> | string | null
+    raca?: StringNullableWithAggregatesFilter<"Pet"> | string | null
     sexo?: StringWithAggregatesFilter<"Pet"> | string
     idade?: IntWithAggregatesFilter<"Pet"> | number
     idcliente?: IntWithAggregatesFilter<"Pet"> | number
@@ -8553,7 +8581,8 @@ export namespace Prisma {
     nome?: StringFilter<"Cliente"> | string
     telefone?: StringFilter<"Cliente"> | string
     email?: StringFilter<"Cliente"> | string
-    endereço?: StringFilter<"Cliente"> | string
+    senha?: StringFilter<"Cliente"> | string
+    endereco?: StringFilter<"Cliente"> | string
     createdAt?: DateTimeFilter<"Cliente"> | Date | string
     updatedAt?: DateTimeFilter<"Cliente"> | Date | string
     solicitacoes?: SolicitacaoListRelationFilter
@@ -8566,7 +8595,8 @@ export namespace Prisma {
     nome?: SortOrder
     telefone?: SortOrder
     email?: SortOrder
-    endereço?: SortOrder
+    senha?: SortOrder
+    endereco?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     solicitacoes?: SolicitacaoOrderByRelationAggregateInput
@@ -8582,7 +8612,8 @@ export namespace Prisma {
     nome?: StringFilter<"Cliente"> | string
     telefone?: StringFilter<"Cliente"> | string
     email?: StringFilter<"Cliente"> | string
-    endereço?: StringFilter<"Cliente"> | string
+    senha?: StringFilter<"Cliente"> | string
+    endereco?: StringFilter<"Cliente"> | string
     createdAt?: DateTimeFilter<"Cliente"> | Date | string
     updatedAt?: DateTimeFilter<"Cliente"> | Date | string
     solicitacoes?: SolicitacaoListRelationFilter
@@ -8595,7 +8626,8 @@ export namespace Prisma {
     nome?: SortOrder
     telefone?: SortOrder
     email?: SortOrder
-    endereço?: SortOrder
+    senha?: SortOrder
+    endereco?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ClienteCountOrderByAggregateInput
@@ -8613,7 +8645,8 @@ export namespace Prisma {
     nome?: StringWithAggregatesFilter<"Cliente"> | string
     telefone?: StringWithAggregatesFilter<"Cliente"> | string
     email?: StringWithAggregatesFilter<"Cliente"> | string
-    endereço?: StringWithAggregatesFilter<"Cliente"> | string
+    senha?: StringWithAggregatesFilter<"Cliente"> | string
+    endereco?: StringWithAggregatesFilter<"Cliente"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Cliente"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Cliente"> | Date | string
   }
@@ -8626,6 +8659,7 @@ export namespace Prisma {
     nome?: StringFilter<"Funcionario"> | string
     telefone?: StringFilter<"Funcionario"> | string
     email?: StringFilter<"Funcionario"> | string
+    senha?: StringFilter<"Funcionario"> | string
     endereço?: StringFilter<"Funcionario"> | string
     createdAt?: DateTimeFilter<"Funcionario"> | Date | string
     updatedAt?: DateTimeFilter<"Funcionario"> | Date | string
@@ -8637,6 +8671,7 @@ export namespace Prisma {
     nome?: SortOrder
     telefone?: SortOrder
     email?: SortOrder
+    senha?: SortOrder
     endereço?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8651,6 +8686,7 @@ export namespace Prisma {
     nome?: StringFilter<"Funcionario"> | string
     telefone?: StringFilter<"Funcionario"> | string
     email?: StringFilter<"Funcionario"> | string
+    senha?: StringFilter<"Funcionario"> | string
     endereço?: StringFilter<"Funcionario"> | string
     createdAt?: DateTimeFilter<"Funcionario"> | Date | string
     updatedAt?: DateTimeFilter<"Funcionario"> | Date | string
@@ -8662,6 +8698,7 @@ export namespace Prisma {
     nome?: SortOrder
     telefone?: SortOrder
     email?: SortOrder
+    senha?: SortOrder
     endereço?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8680,6 +8717,7 @@ export namespace Prisma {
     nome?: StringWithAggregatesFilter<"Funcionario"> | string
     telefone?: StringWithAggregatesFilter<"Funcionario"> | string
     email?: StringWithAggregatesFilter<"Funcionario"> | string
+    senha?: StringWithAggregatesFilter<"Funcionario"> | string
     endereço?: StringWithAggregatesFilter<"Funcionario"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Funcionario"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Funcionario"> | Date | string
@@ -8875,7 +8913,7 @@ export namespace Prisma {
   export type PetCreateInput = {
     nome: string
     especie: string
-    raça?: string | null
+    raca?: string | null
     sexo: string
     idade: number
     createdAt?: Date | string
@@ -8889,7 +8927,7 @@ export namespace Prisma {
     id?: number
     nome: string
     especie: string
-    raça?: string | null
+    raca?: string | null
     sexo: string
     idade: number
     idcliente: number
@@ -8902,7 +8940,7 @@ export namespace Prisma {
   export type PetUpdateInput = {
     nome?: StringFieldUpdateOperationsInput | string
     especie?: StringFieldUpdateOperationsInput | string
-    raça?: NullableStringFieldUpdateOperationsInput | string | null
+    raca?: NullableStringFieldUpdateOperationsInput | string | null
     sexo?: StringFieldUpdateOperationsInput | string
     idade?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8916,7 +8954,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     especie?: StringFieldUpdateOperationsInput | string
-    raça?: NullableStringFieldUpdateOperationsInput | string | null
+    raca?: NullableStringFieldUpdateOperationsInput | string | null
     sexo?: StringFieldUpdateOperationsInput | string
     idade?: IntFieldUpdateOperationsInput | number
     idcliente?: IntFieldUpdateOperationsInput | number
@@ -8930,7 +8968,7 @@ export namespace Prisma {
     id?: number
     nome: string
     especie: string
-    raça?: string | null
+    raca?: string | null
     sexo: string
     idade: number
     idcliente: number
@@ -8941,7 +8979,7 @@ export namespace Prisma {
   export type PetUpdateManyMutationInput = {
     nome?: StringFieldUpdateOperationsInput | string
     especie?: StringFieldUpdateOperationsInput | string
-    raça?: NullableStringFieldUpdateOperationsInput | string | null
+    raca?: NullableStringFieldUpdateOperationsInput | string | null
     sexo?: StringFieldUpdateOperationsInput | string
     idade?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8952,7 +8990,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     especie?: StringFieldUpdateOperationsInput | string
-    raça?: NullableStringFieldUpdateOperationsInput | string | null
+    raca?: NullableStringFieldUpdateOperationsInput | string | null
     sexo?: StringFieldUpdateOperationsInput | string
     idade?: IntFieldUpdateOperationsInput | number
     idcliente?: IntFieldUpdateOperationsInput | number
@@ -8964,7 +9002,8 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
-    endereço: string
+    senha: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
     solicitacoes?: SolicitacaoCreateNestedManyWithoutClienteInput
@@ -8977,7 +9016,8 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
-    endereço: string
+    senha: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
     solicitacoes?: SolicitacaoUncheckedCreateNestedManyWithoutClienteInput
@@ -8989,7 +9029,8 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     solicitacoes?: SolicitacaoUpdateManyWithoutClienteNestedInput
@@ -9002,7 +9043,8 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     solicitacoes?: SolicitacaoUncheckedUpdateManyWithoutClienteNestedInput
@@ -9015,7 +9057,8 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
-    endereço: string
+    senha: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9024,7 +9067,8 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9034,7 +9078,8 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9043,6 +9088,7 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
+    senha: string
     endereço: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9054,6 +9100,7 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
+    senha: string
     endereço: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9064,6 +9111,7 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
     endereço?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9075,6 +9123,7 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
     endereço?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9086,6 +9135,7 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
+    senha: string
     endereço: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9095,6 +9145,7 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
     endereço?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9105,6 +9156,7 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
     endereço?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9364,7 +9416,7 @@ export namespace Prisma {
     id?: SortOrder
     nome?: SortOrder
     especie?: SortOrder
-    raça?: SortOrder
+    raca?: SortOrder
     sexo?: SortOrder
     idade?: SortOrder
     idcliente?: SortOrder
@@ -9382,7 +9434,7 @@ export namespace Prisma {
     id?: SortOrder
     nome?: SortOrder
     especie?: SortOrder
-    raça?: SortOrder
+    raca?: SortOrder
     sexo?: SortOrder
     idade?: SortOrder
     idcliente?: SortOrder
@@ -9394,7 +9446,7 @@ export namespace Prisma {
     id?: SortOrder
     nome?: SortOrder
     especie?: SortOrder
-    raça?: SortOrder
+    raca?: SortOrder
     sexo?: SortOrder
     idade?: SortOrder
     idcliente?: SortOrder
@@ -9499,7 +9551,8 @@ export namespace Prisma {
     nome?: SortOrder
     telefone?: SortOrder
     email?: SortOrder
-    endereço?: SortOrder
+    senha?: SortOrder
+    endereco?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9513,7 +9566,8 @@ export namespace Prisma {
     nome?: SortOrder
     telefone?: SortOrder
     email?: SortOrder
-    endereço?: SortOrder
+    senha?: SortOrder
+    endereco?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9523,7 +9577,8 @@ export namespace Prisma {
     nome?: SortOrder
     telefone?: SortOrder
     email?: SortOrder
-    endereço?: SortOrder
+    senha?: SortOrder
+    endereco?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9537,6 +9592,7 @@ export namespace Prisma {
     nome?: SortOrder
     telefone?: SortOrder
     email?: SortOrder
+    senha?: SortOrder
     endereço?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9551,6 +9607,7 @@ export namespace Prisma {
     nome?: SortOrder
     telefone?: SortOrder
     email?: SortOrder
+    senha?: SortOrder
     endereço?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9561,6 +9618,7 @@ export namespace Prisma {
     nome?: SortOrder
     telefone?: SortOrder
     email?: SortOrder
+    senha?: SortOrder
     endereço?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10236,7 +10294,8 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
-    endereço: string
+    senha: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
     solicitacoes?: SolicitacaoCreateNestedManyWithoutClienteInput
@@ -10248,7 +10307,8 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
-    endereço: string
+    senha: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
     solicitacoes?: SolicitacaoUncheckedCreateNestedManyWithoutClienteInput
@@ -10330,7 +10390,8 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     solicitacoes?: SolicitacaoUpdateManyWithoutClienteNestedInput
@@ -10342,7 +10403,8 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     solicitacoes?: SolicitacaoUncheckedUpdateManyWithoutClienteNestedInput
@@ -10400,7 +10462,7 @@ export namespace Prisma {
   export type PetCreateWithoutClienteInput = {
     nome: string
     especie: string
-    raça?: string | null
+    raca?: string | null
     sexo: string
     idade: number
     createdAt?: Date | string
@@ -10413,7 +10475,7 @@ export namespace Prisma {
     id?: number
     nome: string
     especie: string
-    raça?: string | null
+    raca?: string | null
     sexo: string
     idade: number
     createdAt?: Date | string
@@ -10499,7 +10561,7 @@ export namespace Prisma {
     id?: IntFilter<"Pet"> | number
     nome?: StringFilter<"Pet"> | string
     especie?: StringFilter<"Pet"> | string
-    raça?: StringNullableFilter<"Pet"> | string | null
+    raca?: StringNullableFilter<"Pet"> | string | null
     sexo?: StringFilter<"Pet"> | string
     idade?: IntFilter<"Pet"> | number
     idcliente?: IntFilter<"Pet"> | number
@@ -10551,7 +10613,7 @@ export namespace Prisma {
   export type PetCreateWithoutAtendimentosInput = {
     nome: string
     especie: string
-    raça?: string | null
+    raca?: string | null
     sexo: string
     idade: number
     createdAt?: Date | string
@@ -10564,7 +10626,7 @@ export namespace Prisma {
     id?: number
     nome: string
     especie: string
-    raça?: string | null
+    raca?: string | null
     sexo: string
     idade: number
     idcliente: number
@@ -10582,6 +10644,7 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
+    senha: string
     endereço: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10592,6 +10655,7 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
+    senha: string
     endereço: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10616,7 +10680,7 @@ export namespace Prisma {
   export type PetUpdateWithoutAtendimentosInput = {
     nome?: StringFieldUpdateOperationsInput | string
     especie?: StringFieldUpdateOperationsInput | string
-    raça?: NullableStringFieldUpdateOperationsInput | string | null
+    raca?: NullableStringFieldUpdateOperationsInput | string | null
     sexo?: StringFieldUpdateOperationsInput | string
     idade?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10629,7 +10693,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     especie?: StringFieldUpdateOperationsInput | string
-    raça?: NullableStringFieldUpdateOperationsInput | string | null
+    raca?: NullableStringFieldUpdateOperationsInput | string | null
     sexo?: StringFieldUpdateOperationsInput | string
     idade?: IntFieldUpdateOperationsInput | number
     idcliente?: IntFieldUpdateOperationsInput | number
@@ -10653,6 +10717,7 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
     endereço?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10663,6 +10728,7 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
     endereço?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10672,7 +10738,8 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
-    endereço: string
+    senha: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
     agendamentos?: AgendamentoCreateNestedManyWithoutClienteInput
@@ -10684,7 +10751,8 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
-    endereço: string
+    senha: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
     agendamentos?: AgendamentoUncheckedCreateNestedManyWithoutClienteInput
@@ -10711,7 +10779,8 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agendamentos?: AgendamentoUpdateManyWithoutClienteNestedInput
@@ -10723,7 +10792,8 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agendamentos?: AgendamentoUncheckedUpdateManyWithoutClienteNestedInput
@@ -10734,7 +10804,8 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
-    endereço: string
+    senha: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
     solicitacoes?: SolicitacaoCreateNestedManyWithoutClienteInput
@@ -10746,7 +10817,8 @@ export namespace Prisma {
     nome: string
     telefone: string
     email: string
-    endereço: string
+    senha: string
+    endereco: string
     createdAt?: Date | string
     updatedAt?: Date | string
     solicitacoes?: SolicitacaoUncheckedCreateNestedManyWithoutClienteInput
@@ -10761,7 +10833,7 @@ export namespace Prisma {
   export type PetCreateWithoutAgendamentosInput = {
     nome: string
     especie: string
-    raça?: string | null
+    raca?: string | null
     sexo: string
     idade: number
     createdAt?: Date | string
@@ -10774,7 +10846,7 @@ export namespace Prisma {
     id?: number
     nome: string
     especie: string
-    raça?: string | null
+    raca?: string | null
     sexo: string
     idade: number
     idcliente: number
@@ -10803,7 +10875,8 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     solicitacoes?: SolicitacaoUpdateManyWithoutClienteNestedInput
@@ -10815,7 +10888,8 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     telefone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    endereço?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    endereco?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     solicitacoes?: SolicitacaoUncheckedUpdateManyWithoutClienteNestedInput
@@ -10836,7 +10910,7 @@ export namespace Prisma {
   export type PetUpdateWithoutAgendamentosInput = {
     nome?: StringFieldUpdateOperationsInput | string
     especie?: StringFieldUpdateOperationsInput | string
-    raça?: NullableStringFieldUpdateOperationsInput | string | null
+    raca?: NullableStringFieldUpdateOperationsInput | string | null
     sexo?: StringFieldUpdateOperationsInput | string
     idade?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10849,7 +10923,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     especie?: StringFieldUpdateOperationsInput | string
-    raça?: NullableStringFieldUpdateOperationsInput | string | null
+    raca?: NullableStringFieldUpdateOperationsInput | string | null
     sexo?: StringFieldUpdateOperationsInput | string
     idade?: IntFieldUpdateOperationsInput | number
     idcliente?: IntFieldUpdateOperationsInput | number
@@ -10935,7 +11009,7 @@ export namespace Prisma {
     id?: number
     nome: string
     especie: string
-    raça?: string | null
+    raca?: string | null
     sexo: string
     idade: number
     createdAt?: Date | string
@@ -10988,7 +11062,7 @@ export namespace Prisma {
   export type PetUpdateWithoutClienteInput = {
     nome?: StringFieldUpdateOperationsInput | string
     especie?: StringFieldUpdateOperationsInput | string
-    raça?: NullableStringFieldUpdateOperationsInput | string | null
+    raca?: NullableStringFieldUpdateOperationsInput | string | null
     sexo?: StringFieldUpdateOperationsInput | string
     idade?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11001,7 +11075,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     especie?: StringFieldUpdateOperationsInput | string
-    raça?: NullableStringFieldUpdateOperationsInput | string | null
+    raca?: NullableStringFieldUpdateOperationsInput | string | null
     sexo?: StringFieldUpdateOperationsInput | string
     idade?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11014,7 +11088,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     especie?: StringFieldUpdateOperationsInput | string
-    raça?: NullableStringFieldUpdateOperationsInput | string | null
+    raca?: NullableStringFieldUpdateOperationsInput | string | null
     sexo?: StringFieldUpdateOperationsInput | string
     idade?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

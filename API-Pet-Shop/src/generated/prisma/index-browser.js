@@ -124,7 +124,7 @@ exports.Prisma.PetScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
   especie: 'especie',
-  raça: 'raça',
+  raca: 'raca',
   sexo: 'sexo',
   idade: 'idade',
   idcliente: 'idcliente',
@@ -137,7 +137,8 @@ exports.Prisma.ClienteScalarFieldEnum = {
   nome: 'nome',
   telefone: 'telefone',
   email: 'email',
-  endereço: 'endereço',
+  senha: 'senha',
+  endereco: 'endereco',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -147,6 +148,7 @@ exports.Prisma.FuncionarioScalarFieldEnum = {
   nome: 'nome',
   telefone: 'telefone',
   email: 'email',
+  senha: 'senha',
   endereço: 'endereço',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

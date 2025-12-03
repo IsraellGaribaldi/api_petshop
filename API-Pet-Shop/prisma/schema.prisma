@@ -5,7 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 //tabela de pets 
@@ -13,7 +12,7 @@ model Pet {
   id           Int           @id @default(autoincrement())
   nome         String
   especie      String
-  raça        String?
+  raca        String?
   sexo         String
   idade        Int
   idcliente    Int
@@ -32,7 +31,8 @@ model Cliente {
   nome      String
   telefone  String
   email     String
-  endereço  String
+  senha     String
+  endereco  String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   solicitacoes Solicitacao[]
@@ -46,6 +46,7 @@ model Funcionario {
   nome         String
   telefone     String
   email        String
+  senha       String
   endereço    String
   atendimentos Atendimento[]
   createdAt    DateTime      @default(now())
