@@ -1,88 +1,81 @@
-// Importa os tipos Request e Response do Express, usados para tipar os parâmetros das funções de rota
-import { type Request, type Response, type NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
+import { atendimentoService } from '../services/atendimentoServices';
+import { paginationSchema } from '../schemas/index';
+import { z } from 'zod';
 
-// Importa todas as funções do módulo 'atendimentoServices' e as agrupa no objeto 'atendimentoService'
-import * as atendimentoServices from '../services/atendimentoServices.ts';
+const atendimentoQuerySchema = paginationSchema.extend({
+  status: z.enum(['agendado', 'em_andamento', 'concluido', 'cancelado']).optional(),
+  funcionarioId: z.coerce.number().int().positive().optional(),
+  dataInicio: z.string().optional(),
+  dataFim: z.string().optional(),
+});
 
-// Exporta a função 'atendimento' (usada como controlador de rota no Express)
-export const atendimento = async (req: Request, res: Response) => {
-  try {
-    const newAtendimento = await atendimentoServices.create(req.body);
-
-    // Se der certo, retorna status HTTP 201 (Created) e o objeto do atendimento criado em formato JSON
-    return res.status(201).json(newAtendimento);
-
-  } catch (error: any) {
-    // Se ocorrer um erro e ele tiver o código 'P2002' (erro de campo único duplicado no Prisma)
-    if (error.code === 'P2002') {
-      // Retorna status 409 (Conflito) e uma mensagem informando qual campo único já existe
-      return res.status(409).json({ message: `Campo único já existe: ${error.meta.target}` });
+export const atendimentoController = {
+  async findAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      const query = atendimentoQuerySchema.parse(req.query);
+      const result = await atendimentoService.findAll(query);
+      res.json({ success: true, ...result });
+    } catch (error) {
+      next(error);
     }
+  },
 
-    
-    // e a mensagem de erro para ajudar na depuração
-    return res.status(500).json({ message: error.message });
-  }
-};
+  async findById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = parseInt(req.params.id);
+      const atendimento = await atendimentoService.findById(id);
+      res.json({ success: true, data: atendimento });
+    } catch (error) {
+      next(error);
+    }
+  },
 
-export const getAllAtendimento = async (req: Request, res: Response) => {
-  try {
-    const atendimento = await atendimentoServices.getAll();
-    return res.json(atendimento);
-  } catch (error: any) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+  async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      const atendimento = await atendimentoService.create(req.body);
+      res.status(201).json({ success: true, data: atendimento });
+    } catch (error) {
+      next(error);
+    }
+  },
 
-export const getAtendimentoById = async (req: Request, res: Response) => {
-  try {
-    // Converte o parâmetro de rota (req.params.id) para número
-    const atendimento = await atendimentoServices.getById(Number(req.params.id));
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = parseInt(req.params.id);
+      const atendimento = await atendimentoService.update(id, req.body);
+      res.json({ success: true, data: atendimento });
+    } catch (error) {
+      next(error);
+    }
+  },
 
-    // Se o atendimento não for encontrado → retorna erro 404 (Not Found)
-    if (!atendimento) return res.status(404).json({ message: 'atendimento não encontrado' });
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = parseInt(req.params.id);
+      await atendimentoService.delete(id);
+      res.json({ success: true, message: 'Atendimento excluído com sucesso' });
+    } catch (error) {
+      next(error);
+    }
+  },
 
-    // Caso contrário → retorna o atendimento encontrado
-    return res.json(atendimento);
+  async getHoje(req: Request, res: Response, next: NextFunction) {
+    try {
+      const atendimentos = await atendimentoService.getAgendamentosHoje();
+      res.json({ success: true, data: atendimentos });
+    } catch (error) {
+      next(error);
+    }
+  },
 
-  } catch (error: any) {
-    // Em caso de erro inesperado → retorna status 500
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-
-export const updateAtendimento = async (req: Request, res: Response) => {
-  try {
-    // Chama o serviço que atualiza o atendimento com o ID e os novos dados
-    const atendimento = await atendimentoServices.update(Number(req.params.id), req.body);
-
-    // Retorna o atendimento atualizado
-    return res.json(atendimento);
-
-  } catch (error: any) {
-    // Erro P2025 → registro não encontrado no Prisma
-    if (error.code === 'P2025') return res.status(404).json({ message: 'atendimento não encontrado' });
-
-    // Outros erros → status 500
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-
-export const deleteAtendimento  = async (req: Request, res: Response) => {
-  try {
-    // Chama o serviço que remove o atendimento pelo ID
-    await atendimentoServices.remove(Number(req.params.id));
-
-    // Retorna status 204 (No Content) → exclusão bem-sucedida sem corpo na resposta
-    return res.status(204).send();
-
-  } catch (error: any) {
-    // Erro P2025 → atendimento não encontrado
-    if (error.code === 'P2025') return res.status(404).json({ message: 'atendimento não encontrado' });
-
-    // Outros erros → status 500
-    return res.status(500).json({ message: error.message });
-  }
+  async getProximos(req: Request, res: Response, next: NextFunction) {
+    try {
+      const dias = req.query.dias ? parseInt(req.query.dias as string) : 7;
+      const atendimentos = await atendimentoService.getProximosAgendamentos(dias);
+      res.json({ success: true, data: atendimentos });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

@@ -1,51 +1,85 @@
-// src/services/clienteServices.ts
+import prisma from '../lib/prisma.js';
+import { ClienteCreate, ClienteUpdate, PaginationQuery } from '../schemas/index.js';
+import { AppError } from '../middlewares/errorHandler.js';
 
-// Importa a instância do PrismaClient.
-import { prisma } from '../db/prisma/prisma.ts';
+export const clienteService = {
+  async findAll(query: PaginationQuery) {
+    const { page, limit, search, orderBy = 'nome', order } = query;
+    const skip = (page - 1) * limit;
 
-// REMOVIDO: A importação direta do tipo estava causando o erro de tipagem:
-// import { type Cliente } from '@prisma/client'; 
+    const where = search
+      ? {
+          OR: [
+            { nome: { contains: search, mode: 'insensitive' as const } },
+            { email: { contains: search, mode: 'insensitive' as const } },
+            { telefone: { contains: search } },
+          ],
+        }
+      : {};
 
-// 🎯 SOLUÇÃO: Inferir o tipo do modelo Cliente a partir da instância do Prisma.
-type ClienteModel = typeof prisma.cliente;
-// Tipo Cliente é o resultado esperado de uma consulta (ex: findFirst)
-type ClienteType = Awaited<ReturnType<ClienteModel['findFirst']>>; 
+    const [data, total] = await Promise.all([
+      prisma.cliente.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { [orderBy]: order },
+        include: {
+          _count: { select: { pets: true, vendas: true } },
+        },
+      }),
+      prisma.cliente.count({ where }),
+    ]);
 
+    return {
+      data,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  },
 
-// Define o tipo para a criação de um novo cliente.
-// Usamos a sintaxe do Prisma para pegar o tipo exato de dados de criação.
-type ClienteCreateData = Parameters<ClienteModel['create']>[0]['data'];
+  async findById(id: number) {
+    const cliente = await prisma.cliente.findUnique({
+      where: { id },
+      include: {
+        pets: true,
+        vendas: {
+          include: { itens: { include: { produto: true } } },
+          orderBy: { createdAt: 'desc' },
+          take: 10,
+        },
+      },
+    });
 
-// Define o tipo para a atualização de um cliente.
-type ClienteUpdateData = Parameters<ClienteModel['update']>[0]['data'];
+    if (!cliente) {
+      throw new AppError('Cliente não encontrado', 404);
+    }
 
+    return cliente;
+  },
 
-// Função para criar um novo cliente no banco de dados.
-export const create = async (data: ClienteCreateData): Promise<ClienteType> => {
- return prisma.cliente.create({
- data,
- });
-};
+  async create(data: ClienteCreate) {
+    return prisma.cliente.create({
+      data,
+      include: { pets: true },
+    });
+  },
 
-// Função para buscar todos os clientes no banco de dados.
-export const getAll = async (): Promise<ClienteType[]> => {
- return prisma.cliente.findMany();
-};
+  async update(id: number, data: ClienteUpdate) {
+    await this.findById(id);
+    
+    return prisma.cliente.update({
+      where: { id },
+      data,
+      include: { pets: true },
+    });
+  },
 
-// Função para buscar um cliente pelo ID no banco de dados.
-export const getById = async (id: number): Promise<ClienteType | null> => {
- return prisma.cliente.findUnique({ where: { id } });
-};
-
-// Função para atualizar um cliente no banco de dados.
-export const update = async (id: number, data: ClienteUpdateData): Promise<ClienteType> => {
- return prisma.cliente.update({
- where: { id },
-  data,
- });
-};
-
-// Função para remover um cliente do banco de dados.
-export const remove = async (id: number): Promise<ClienteType> => {
- return prisma.cliente.delete({ where: { id } });
+  async delete(id: number) {
+    await this.findById(id);
+    return prisma.cliente.delete({ where: { id } });
+  },
 };

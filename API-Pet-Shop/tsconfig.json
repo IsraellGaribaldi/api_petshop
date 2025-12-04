@@ -1,22 +1,24 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022"],
+
+    "outDir": "./dist",
+    "rootDir": "./src",
+
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "outDir": "dist",
-    "baseUrl": ".",
+    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
 
-    // ADICIONADO NO LUGAR CORRETO
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/types"
-    ]
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
   },
 
-  "include": ["src", "prisma.config.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

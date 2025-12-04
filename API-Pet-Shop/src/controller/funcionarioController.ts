@@ -1,95 +1,69 @@
-// Importa os tipos Request e Response do Express, usados para tipar as requisições e respostas HTTP
-import type { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { funcionarioService } from '../services/funcionarioServices.js';
+import { paginationSchema } from '../schemas/index.js';
+import { z } from 'zod';
 
-// Importa todas as funções do serviço de funcionários (create, getAll, getById, update, remove)
-import * as funcionarioService from '../services/funcionarioServices.ts';
+const funcionarioQuerySchema = paginationSchema.extend({
+  cargo: z.string().optional(),
+  ativo: z.coerce.boolean().optional(),
+});
 
-
-export const createFuncionario = async (req: Request, res: Response) => {
-  try {
-    // Chama o serviço que cria o funcionário, passando os dados do corpo da requisição (req.body)
-    const newFuncionario = await funcionarioService.create(req.body);
-
-    // Retorna status 201 (Created) e o funcionário criado em formato JSON
-    return res.status(201).json(newFuncionario);
-
-  } catch (error: any) {
-    // Se o erro for de duplicação de campo único (erro do Prisma P2002)
-    if (error.code === 'P2002') {
-      // Retorna erro 409 (Conflito) informando qual campo único já existe
-      return res.status(409).json({ message: `Campo único já existe: ${error.meta.target}` });
+export const funcionarioController = {
+  async findAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      const query = funcionarioQuerySchema.parse(req.query);
+      const result = await funcionarioService.findAll(query);
+      res.json({ success: true, ...result });
+    } catch (error) {
+      next(error);
     }
+  },
 
-    // Se for outro erro → retorna status 500 (Erro interno do servidor)
-    return res.status(500).json({ message: error.message });
-  }
-};
+  async findById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = parseInt(req.params.id);
+      const funcionario = await funcionarioService.findById(id);
+      res.json({ success: true, data: funcionario });
+    } catch (error) {
+      next(error);
+    }
+  },
 
+  async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      const funcionario = await funcionarioService.create(req.body);
+      res.status(201).json({ success: true, data: funcionario });
+    } catch (error) {
+      next(error);
+    }
+  },
 
-export const getAllFuncionarios = async (req: Request, res: Response) => {
-  try {
-    // Chama o serviço que busca todos os funcionários
-    const funcionarios = await funcionarioService.getAll();
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = parseInt(req.params.id);
+      const funcionario = await funcionarioService.update(id, req.body);
+      res.json({ success: true, data: funcionario });
+    } catch (error) {
+      next(error);
+    }
+  },
 
-    // Retorna a lista de funcionários em formato JSON
-    return res.json(funcionarios);
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = parseInt(req.params.id);
+      await funcionarioService.delete(id);
+      res.json({ success: true, message: 'Funcionário excluído com sucesso' });
+    } catch (error) {
+      next(error);
+    }
+  },
 
-  } catch (error: any) {
-    // Em caso de erro → status 500 (erro interno)
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-
-export const getFuncionarioById = async (req: Request, res: Response) => {
-  try {
-    // Converte o ID passado na URL (req.params.id) para número e busca o funcionário no banco
-    const funcionario = await funcionarioService.getById(Number(req.params.id));
-
-    // Se o funcionário não for encontrado → retorna erro 404 (Not Found)
-    if (!funcionario) return res.status(404).json({ message: 'Funcionário não encontrado' });
-
-    // Caso o funcionário exista → retorna os dados dele
-    return res.json(funcionario);
-
-  } catch (error: any) {
-    // Se ocorrer erro → status 500 com a mensagem
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-
-export const updateFuncionario = async (req: Request, res: Response) => {
-  try {
-    // Chama o serviço que atualiza o funcionário com o ID e os novos dados (req.body)
-    const funcionario = await funcionarioService.update(Number(req.params.id), req.body);
-
-    // Retorna o funcionário atualizado
-    return res.json(funcionario);
-
-  } catch (error: any) {
-    // Erro P2025 → registro não encontrado no banco (erro do Prisma)
-    if (error.code === 'P2025') return res.status(404).json({ message: 'Funcionário não encontrado' });
-
-    // Outros erros → status 500
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-
-export const deleteFuncionario = async (req: Request, res: Response) => {
-  try {
-    // Chama o serviço que remove o funcionário com base no ID passado na URL
-    await funcionarioService.remove(Number(req.params.id));
-
-    // Retorna status 204 (No Content) → sucesso sem corpo de resposta
-    return res.status(204).send();
-
-  } catch (error: any) {
-    // Se o funcionário não existir → retorna erro 404
-    if (error.code === 'P2025') return res.status(404).json({ message: 'Funcionário não encontrado' });
-
-    // Outros erros → status 500
-    return res.status(500).json({ message: error.message });
-  }
+  async getCargos(req: Request, res: Response, next: NextFunction) {
+    try {
+      const cargos = await funcionarioService.getCargos();
+      res.json({ success: true, data: cargos });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

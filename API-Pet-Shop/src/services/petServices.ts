@@ -1,40 +1,110 @@
-// src/services/petServices.ts
+import prisma from '../lib/prisma.js';
+import { PetCreate, PetUpdate, PaginationQuery } from '../schemas/index.js';
+import { AppError } from '../middlewares/errorHandler.js';
 
-// 1. CORRIGIDO: Importação nomeada { prisma } E a extensão .ts
-import { prisma } from '../db/prisma/prisma.ts';
+export const petService = {
+  async findAll(query: PaginationQuery & { especie?: string; clienteId?: number }) {
+    const { page, limit, search, orderBy = 'nome', order, especie, clienteId } = query;
+    const skip = (page - 1) * limit;
 
-// 2. CORRIGIDO: Inferência de Tipos. Removemos a importação de Pet de '../generated/prisma'.
-type PetModel = typeof prisma.pet;
-type PetType = Awaited<ReturnType<PetModel['findFirst']>>; 
-type PetCreateData = Parameters<PetModel['create']>[0]['data'];
-type PetUpdateData = Parameters<PetModel['update']>[0]['data'];
+    const where: any = {};
+    
+    if (search) {
+      where.OR = [
+        { nome: { contains: search, mode: 'insensitive' } },
+        { raca: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+    
+    if (especie) {
+      where.especie = especie;
+    }
+    
+    if (clienteId) {
+      where.clienteId = clienteId;
+    }
 
-// Função para criar um novo pet no banco de dados.
-export const create = async (data: PetCreateData): Promise<PetType> => {
- return prisma.pet.create({
-  data,
-  });
-};
+    const [data, total] = await Promise.all([
+      prisma.pet.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { [orderBy]: order },
+        include: {
+          cliente: { select: { id: true, nome: true, telefone: true } },
+        },
+      }),
+      prisma.pet.count({ where }),
+    ]);
 
-// Função para buscar todos os pets no banco de dados.
-export const getAll = async (): Promise<PetType[]> => {
-  return prisma.pet.findMany();
-};
+    return {
+      data,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  },
 
-// Função para buscar um pet pelo ID no banco de dados.
-export const getById = async (id: number): Promise<PetType | null> => {
-  return prisma.pet.findUnique({ where: { id } });
-};
+  async findById(id: number) {
+    const pet = await prisma.pet.findUnique({
+      where: { id },
+      include: {
+        cliente: true,
+        atendimentos: {
+          include: { servico: true, funcionario: { select: { nome: true } } },
+          orderBy: { dataHora: 'desc' },
+          take: 10,
+        },
+      },
+    });
 
-// Função para atualizar um pet no banco de dados.
-export const update = async (id: number, data: PetUpdateData): Promise<PetType> => {
- return prisma.pet.update({
-  where: { id },
-  data,
- });
-};
+    if (!pet) {
+      throw new AppError('Pet não encontrado', 404);
+    }
 
-// Função para remover um pet do banco de dados.
-export const remove = async (id: number): Promise<PetType> => {
- return prisma.pet.delete({ where: { id } });
+    return pet;
+  },
+
+  async create(data: PetCreate) {
+    // Verificar se cliente existe
+    const cliente = await prisma.cliente.findUnique({
+      where: { id: data.clienteId },
+    });
+
+    if (!cliente) {
+      throw new AppError('Cliente não encontrado', 404);
+    }
+
+    return prisma.pet.create({
+      data,
+      include: { cliente: { select: { id: true, nome: true } } },
+    });
+  },
+
+  async update(id: number, data: PetUpdate) {
+    await this.findById(id);
+    
+    return prisma.pet.update({
+      where: { id },
+      data,
+      include: { cliente: { select: { id: true, nome: true } } },
+    });
+  },
+
+  async delete(id: number) {
+    await this.findById(id);
+    return prisma.pet.delete({ where: { id } });
+  },
+
+  async findByCliente(clienteId: number) {
+    return prisma.pet.findMany({
+      where: { clienteId },
+      include: {
+        _count: { select: { atendimentos: true } },
+      },
+    });
+  },
 };

@@ -1,39 +1,25 @@
-import { Request, Response } from 'express';
-import { authService } from '../services/authService.ts';
+import { Request, Response, NextFunction } from 'express';
+import { authService } from '../services/authService.js';
 
 export const authController = {
-  async register(req: Request, res: Response) {
+  async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const { email, senha, nome, telefone, endereco, userType } = req.body;
-
-      if (!email || !senha || !nome || !telefone || !endereco || !userType) {
-        return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
-      }
-
-      if (!['FUNCIONARIO', 'CLIENTE'].includes(userType)) {
-        return res.status(400).json({ error: 'Tipo de usuário inválido' });
-      }
-
-      const user = await authService.register({ email, senha, nome, telefone, endereco, userType });
-      return res.status(201).json(user);
-    } catch (error: any) {
-      return res.status(400).json({ error: error.message });
+      const result = await authService.login(req.body);
+      res.json({ success: true, data: result });
+    } catch (error) {
+      next(error);
     }
   },
 
-  async login(req: Request, res: Response) {
+  async me(req: Request, res: Response, next: NextFunction) {
     try {
-      const { email, senha } = req.body;
-
-      if (!email || !senha) {
-        return res.status(400).json({ error: 'Email e senha são obrigatórios' });
+      if (!req.user) {
+        return res.status(401).json({ success: false, error: 'Não autenticado' });
       }
-
-      const result = await authService.login(email, senha);
-      return res.json(result);
-    } catch (error: any) {
-      return res.status(401).json({ error: error.message });
+      const funcionario = await authService.me(req.user.id);
+      res.json({ success: true, data: funcionario });
+    } catch (error) {
+      next(error);
     }
-  }
+  },
 };
-export default authController;

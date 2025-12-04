@@ -1,83 +1,71 @@
-// src/services/authService.ts
-
-// MUDANÇA AQUI: Usar importação nomeada com chaves { prisma }
-import { prisma } from "../db/prisma/prisma.ts";
+import prisma from '../lib/prisma.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { LoginInput } from '../schemas/index.js';
+import { AppError } from '../middlewares/errorHandler.js';
 
 export const authService = {
- async register(data: {
- email: string;
-  senha: string;
-  nome: string;
-  telefone: string;
- endereco: string;
- userType: 'FUNCIONARIO' | 'CLIENTE';
-  }) {
- const hashedPassword = await bcrypt.hash(data.senha, 10);
+  async login(data: LoginInput) {
+    const funcionario = await prisma.funcionario.findUnique({
+      where: { email: data.email },
+    });
 
- if (data.userType === 'CLIENTE') {
- const existing = await prisma.cliente.findFirst({ where: { email: data.email } });
-  if (existing) throw new Error('Email já cadastrado');
+    if (!funcionario) {
+      throw new AppError('Email ou senha incorretos', 401);
+    }
 
- const cliente = await prisma.cliente.create({
-  data: {
-  email: data.email,
-  senha: hashedPassword,
-  nome: data.nome,
-  telefone: data.telefone,
-  endereco: data.endereco
-  }
- });
-  return { id: cliente.id, email: cliente.email, userType: 'CLIENTE' };
- } else {
-  const existing = await prisma.funcionario.findFirst({ where: { email: data.email } });
-  if (existing) throw new Error('Email já cadastrado');
+    if (!funcionario.ativo) {
+      throw new AppError('Funcionário inativo', 401);
+    }
 
-const funcionario = await prisma.funcionario.create({
-  data: {
-  email: data.email,
-  senha: hashedPassword,
-  nome: data.nome,
-  telefone: data.telefone,
-  endereco: data.endereco
- }
-});
- return { id: funcionario.id, email: funcionario.email, userType: 'FUNCIONARIO' };
-}
- },
+    const senhaValida = await bcrypt.compare(data.senha, funcionario.senha);
+    if (!senhaValida) {
+      throw new AppError('Email ou senha incorretos', 401);
+    }
 
-async login(email: string, senha: string) {
- // Tenta encontrar como cliente
- let user = await prisma.cliente.findFirst({ where: { email } });
- let userType = 'CLIENTE';
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new AppError('JWT_SECRET não configurado', 500);
+    }
 
- // Se não encontrou, tenta como funcionário
-if (!user) {
- user = await prisma.funcionario.findFirst({ where: { email } });
-userType = 'FUNCIONARIO';
-}
+    const token = jwt.sign(
+      {
+        id: funcionario.id,
+        email: funcionario.email,
+        cargo: funcionario.cargo,
+      },
+      secret,
+      { expiresIn: '8h' }
+    );
 
- if (!user) throw new Error('Credenciais inválidas');
+    return {
+      token,
+      funcionario: {
+        id: funcionario.id,
+        nome: funcionario.nome,
+        email: funcionario.email,
+        cargo: funcionario.cargo,
+      },
+    };
+  },
 
- const validPassword = await bcrypt.compare(senha, user.senha);
- if (!validPassword) throw new Error('Credenciais inválidas');
+  async me(userId: number) {
+    const funcionario = await prisma.funcionario.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        cargo: true,
+        telefone: true,
+        ativo: true,
+      },
+    });
 
- // A variável de ambiente JWT_SECRET é necessária!
- const jwtSecret = process.env.JWT_SECRET;
- if (!jwtSecret) throw new Error('JWT_SECRET não está definida nas variáveis de ambiente.');
+    if (!funcionario) {
+      throw new AppError('Funcionário não encontrado', 404);
+    }
 
-
-const token = jwt.sign(
- { userId: user.id, userType },
- jwtSecret, // Use a variável verificada
- { expiresIn: '7d' }
- );
-
- return {
- token,
- user: { id: user.id, email: user.email, nome: user.nome, userType }
- };
- }
+    return funcionario;
+  },
 };
-export default authService;
